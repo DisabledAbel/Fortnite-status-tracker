@@ -33,6 +33,10 @@ jobs:
           git commit -m "Auto-update Fortnite status JSON" || echo "No changes to commit"
           git push
 
+      - name: Clean git state before version bump
+        run: |
+          git reset --hard HEAD
+
       - name: Auto bump patch version
         run: |
           git config --local user.name "github-actions"
