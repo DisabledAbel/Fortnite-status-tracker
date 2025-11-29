@@ -1,12 +1,12 @@
-name: Auto Update Fortnite Status
+name: Auto Update & Publish Fortnite Status
 
 on:
   schedule:
     - cron: "*/10 * * * *"  # every 10 minutes
-  workflow_dispatch:       # allows manual trigger
+  workflow_dispatch:
 
 jobs:
-  update-status:
+  update-and-publish:
     runs-on: ubuntu-latest
 
     steps:
@@ -33,8 +33,14 @@ jobs:
           git commit -m "Auto-update Fortnite status JSON" || echo "No changes to commit"
           git push
 
-      # Optional: Uncomment if you want to publish NPM package manually
-      # - name: Publish to NPM
-      #   run: npm publish
-      #   env:
-      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Auto bump patch version
+        run: |
+          git config --local user.name "github-actions"
+          git config --local user.email "github-actions@github.com"
+          npm version patch -m "Auto-bump version %s"
+          git push --follow-tags
+
+      - name: Publish to NPM
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
