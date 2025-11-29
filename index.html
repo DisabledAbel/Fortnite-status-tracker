@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fortnite Server Status</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #121212; color: #fff; text-align: center; padding: 50px; }
+    h1 { color: #8a2be2; margin-bottom: 20px; }
+    .badge { display: inline-block; padding: 10px 20px; border-radius: 10px; font-weight: bold; font-size: 1.2em; margin-bottom: 20px; color: #fff; }
+    .status { display: inline-block; background: #222; padding: 20px; border-radius: 10px; text-align: left; min-width: 300px; }
+    .service { margin: 5px 0; }
+    .online { color: #00ff00; }
+    .degraded { color: #ffff00; }
+    .offline { color: #ff0000; }
+  </style>
+</head>
+<body>
+  <h1>Fortnite Server Status</h1>
+  <div id="badge" class="badge">Loading...</div>
+  <div class="status" id="status">Loading...</div>
+  <script>
+    const STATUS_JSON = "status.json";
+    const BADGE_JSON = "status-badge.json";
+
+    async function fetchStatus() {
+      try {
+        const badgeRes = await fetch(BADGE_JSON);
+        const badgeData = await badgeRes.json();
+        const badgeEl = document.getElementById("badge");
+        badgeEl.textContent = badgeData.message;
+        badgeEl.style.backgroundColor = badgeData.color;
+
+        const statusRes = await fetch(STATUS_JSON);
+        const statusData = await statusRes.json();
+
+        let html = `<p><strong>Overall Status:</strong> ${statusData.overall_status}</p><h3>Services:</h3><ul>`;
+        for (const [service, state] of Object.entries(statusData.services)) {
+          let cls = "online";
+          const s = state.toLowerCase();
+          if (s.includes("degraded")) cls = "degraded";
+          else if (s.includes("major")) cls = "offline";
+          html += `<li class="service ${cls}">${service}: ${state}</li>`;
+        }
+        html += `</ul><p>Last Checked: ${new Date(statusData.last_checked).toUTCString()}</p>`;
+        html += `<p>Source: <a href="https://status.epicgames.com" target="_blank">Epic Games Status</a></p>`;
+        document.getElementById("status").innerHTML = html;
+      } catch (err) {
+        document.getElementById("status").innerHTML = `<p class="offline">Error fetching status</p>`;
+        const badgeEl = document.getElementById("badge");
+        badgeEl.textContent = "ERROR";
+        badgeEl.style.backgroundColor = "#ff0000";
+        console.error(err);
+      }
+    }
+
+    fetchStatus();
+    setInterval(fetchStatus, 5*60*1000);
+  </script>
+</body>
+</html>
