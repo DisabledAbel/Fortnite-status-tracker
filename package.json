@@ -1,13 +1,17 @@
 {
   "name": "fortnite-status",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Fetch Fortnite server status from Epic Games",
   "main": "index.js",
   "type": "module",
   "scripts": {
     "test": "node index.js"
   },
-  "keywords": ["fortnite", "status", "epicgames"],
+  "keywords": [
+    "fortnite",
+    "status",
+    "epicgames"
+  ],
   "author": "Your Name",
   "license": "MIT",
   "dependencies": {
