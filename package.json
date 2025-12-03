@@ -1,6 +1,6 @@
 {
   "name": "fortnite-status-abel",
-  "version": "1.0.198",
+  "version": "1.0.199",
   "description": "Fetch Fortnite server status from Epic Games",
   "main": "index.js",
   "type": "module",
