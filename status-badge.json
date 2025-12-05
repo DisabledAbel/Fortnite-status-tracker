@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
   "label": "Fortnite",
-  "message": "DEGRADED",
-  "color": "yellow"
+  "message": "ONLINE",
+  "color": "brightgreen"
 }

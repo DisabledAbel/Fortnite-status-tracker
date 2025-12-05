@@ -1,5 +1,5 @@
 {
-  "overall_status": "Partially Degraded Service",
+  "overall_status": "All Systems Operational",
   "services": {
     "Fortnite": "operational",
     "Website": "operational",
@@ -44,12 +44,12 @@
     "Leaderboards": "operational",
     "Epic Games Store": "operational",
     "Game Details": "operational",
-    "Epic Online Services": "degraded_performance",
+    "Epic Online Services": "operational",
     "Lobbies": "operational",
     "Sessions": "operational",
     "Fortnite Crew": "operational",
     "Support-A-Creator": "operational",
-    "Peer-to-Peer (P2P)": "degraded_performance",
+    "Peer-to-Peer (P2P)": "operational",
     "Unreal Engine": "operational",
     "Player Data Storage": "operational",
     "UEFN": "operational",
@@ -70,6 +70,6 @@
     "Sketchfab": "operational",
     "Voice": "operational"
   },
-  "last_checked": "2025-12-05T12:43:45.030Z",
+  "last_checked": "2025-12-05T13:23:14.781Z",
   "source": "https://status.epicgames.com/api/v2/summary.json"
 }
