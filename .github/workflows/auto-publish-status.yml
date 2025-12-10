@@ -1,4 +1,4 @@
-name: Build and Deploy Fortnite Status
+name: Build, Deploy & Update Fortnite Status Badge
 
 on:
   push:
@@ -26,7 +26,9 @@ jobs:
         run: npm install -g vercel
 
       - name: Deploy to Vercel
-        run: vercel --prod --token $VERCEL_TOKEN
+        run: vercel --prod --token ${{ secrets.VERCEL_TOKEN }}
+        # Optional: if project is in a subfolder, add:
+        # working-directory: ./fortnite-status-tracker
 
   update-badge:
     runs-on: ubuntu-latest
@@ -38,24 +40,48 @@ jobs:
       - name: Fetch Fortnite Status
         id: status
         run: |
-          STATUS=$(curl -s https://status.epicgames.com/api/v2/status.json | jq -r '.status.indicator')
-          if [ "$STATUS" = "none" ]; then
-            echo "::set-output name=status::Operational"
-          elif [ "$STATUS" = "minor" ]; then
-            echo "::set-output name=status::Minor Issues"
+          STATUS=$(curl -s https://status.epicgames.com/api/v2/components.json | jq -r '.components[] | select(.name=="Fortnite") | .status')
+          if [ "$STATUS" = "operational" ]; then
+            COLOR="brightgreen"
+            MESSAGE="Operational"
+          elif [ "$STATUS" = "degraded_performance" ] || [ "$STATUS" = "partial_outage" ]; then
+            COLOR="yellow"
+            MESSAGE="Minor Issues"
           else
-            echo "::set-output name=status::Major Outage"
+            COLOR="red"
+            MESSAGE="Major Outage"
           fi
+          echo "STATUS=$MESSAGE" >> $GITHUB_ENV
+          echo "COLOR=$COLOR" >> $GITHUB_ENV
 
-      - name: Create badge JSON
+      - name: Generate SVG badge
         run: |
           mkdir -p status-badge
-          echo "{\"schemaVersion\":1,\"label\":\"Fortnite\",\"message\":\"${{ steps.status.outputs.status }}\",\"color\":\"blue\"}" > status-badge/badge.json
+          cat <<EOF > status-badge/fortnite-status.svg
+<svg xmlns="http://www.w3.org/2000/svg" width="150" height="20">
+  <linearGradient id="b" x2="0" y2="100%">
+    <stop offset="0" stop-color="#bbb" stop-opacity=".1"/>
+    <stop offset="1" stop-opacity=".1"/>
+  </linearGradient>
+  <mask id="a">
+    <rect width="150" height="20" rx="3" fill="#fff"/>
+  </mask>
+  <g mask="url(#a)">
+    <rect width="80" height="20" fill="#555"/>
+    <rect x="80" width="70" height="20" fill="${COLOR}"/>
+    <rect width="150" height="20" fill="url(#b)"/>
+  </g>
+  <g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">
+    <text x="40" y="14">Fortnite</text>
+    <text x="115" y="14">${STATUS}</text>
+  </g>
+</svg>
+EOF
 
       - name: Commit badge
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add status-badge/badge.json
+          git add status-badge/fortnite-status.svg
           git commit -m "Update Fortnite status badge" || echo "No changes to commit"
           git push
