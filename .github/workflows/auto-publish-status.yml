@@ -27,8 +27,6 @@ jobs:
 
       - name: Deploy to Vercel
         run: vercel --prod --token ${{ secrets.VERCEL_TOKEN }}
-        # Optional: if project is in a subfolder, add:
-        # working-directory: ./fortnite-status-tracker
 
   update-badge:
     runs-on: ubuntu-latest
@@ -55,9 +53,10 @@ jobs:
           echo "COLOR=$COLOR" >> $GITHUB_ENV
 
       - name: Generate SVG badge
+        shell: bash
         run: |
           mkdir -p status-badge
-          cat <<EOF > status-badge/fortnite-status.svg
+          cat > status-badge/fortnite-status.svg <<'SVG'
 <svg xmlns="http://www.w3.org/2000/svg" width="150" height="20">
   <linearGradient id="b" x2="0" y2="100%">
     <stop offset="0" stop-color="#bbb" stop-opacity=".1"/>
@@ -76,7 +75,7 @@ jobs:
     <text x="115" y="14">${STATUS}</text>
   </g>
 </svg>
-EOF
+SVG
 
       - name: Commit badge
         run: |
