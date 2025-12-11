@@ -1,86 +1,49 @@
-name: Build, Deploy & Update Fortnite Status Badge
+name: Auto Update & Publish Fortnite Status
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'index.html'
-      - 'index.js'
-      - 'README.md'
-      - 'status-badge/**'
+  schedule:
+    - cron: "*/3 * * * *"   # Run every 3 minutes
+  workflow_dispatch:        # Allow manual trigger
+
+# Prevent ANY run from being skipped or cancelled
+concurrency:
+  group: fortnite-status-tracker
+  cancel-in-progress: false
 
 jobs:
-  build-deploy:
+  update-status:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
+    timeout-minutes: 10     # Prevent stuck hangs but allow enough time
 
-      - name: Setup Node
-        uses: actions/setup-node@v3
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
-          node-version: '20'
+          fetch-depth: 0
 
-      - name: Install Vercel CLI
-        run: npm install -g vercel
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
-      - name: Deploy to Vercel
-        run: vercel --prod --token ${{ secrets.VERCEL_TOKEN }}
+      - name: Install dependencies
+        run: npm install
 
-  update-badge:
-    runs-on: ubuntu-latest
-    needs: build-deploy
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
+      - name: Run status update script
+        run: node index.js
 
-      - name: Fetch Fortnite Status
-        id: status
+      - name: Check for changed files
         run: |
-          STATUS=$(curl -s https://status.epicgames.com/api/v2/components.json | jq -r '.components[] | select(.name=="Fortnite") | .status')
-          if [ "$STATUS" = "operational" ]; then
-            COLOR="brightgreen"
-            MESSAGE="Operational"
-          elif [ "$STATUS" = "degraded_performance" ] || [ "$STATUS" = "partial_outage" ]; then
-            COLOR="yellow"
-            MESSAGE="Minor Issues"
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+          # Check for changes
+          if [[ -n "$(git status --porcelain)" ]]; then
+            echo "Changes detected. Committing..."
+            git add -A
+            git commit -m "Auto-update: Fortnite Status $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+            git push
           else
-            COLOR="red"
-            MESSAGE="Major Outage"
+            echo "No updates to commit."
           fi
-          echo "STATUS=$MESSAGE" >> $GITHUB_ENV
-          echo "COLOR=$COLOR" >> $GITHUB_ENV
-
-      - name: Generate SVG badge
-        shell: bash
-        run: |
-          mkdir -p status-badge
-          COLOR_VAR="${COLOR}"
-          STATUS_VAR="${STATUS}"
-          echo "<svg xmlns='http://www.w3.org/2000/svg' width='150' height='20'>
-            <linearGradient id='b' x2='0' y2='100%'>
-              <stop offset='0' stop-color='#bbb' stop-opacity='.1'/>
-              <stop offset='1' stop-opacity='.1'/>
-            </linearGradient>
-            <mask id='a'>
-              <rect width='150' height='20' rx='3' fill='#fff'/>
-            </mask>
-            <g mask='url(#a)'>
-              <rect width='80' height='20' fill='#555'/>
-              <rect x='80' width='70' height='20' fill='${COLOR_VAR}'/>
-              <rect width='150' height='20' fill='url(#b)'/>
-            </g>
-            <g fill='#fff' text-anchor='middle' font-family='Verdana,Geneva,DejaVu Sans,sans-serif' font-size='11'>
-              <text x='40' y='14'>Fortnite</text>
-              <text x='115' y='14'>${STATUS_VAR}</text>
-            </g>
-          </svg>" > status-badge/fortnite-status.svg
-
-      - name: Commit badge
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add status-badge/fortnite-status.svg
-          git commit -m "Update Fortnite status badge" || echo "No changes to commit"
-          git push
+          
