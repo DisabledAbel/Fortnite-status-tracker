@@ -39,8 +39,6 @@ Deploy this tracker instantly using the button below:
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/import?repository-name=Fortnite-status-tracker&s=https%3A%2F%2Fgithub.com%2FDisabledAbel%2FFortnite-status-tracker)
 
-After deployment, your public endpoints will look like:
-
 License
 MIT License
 You are free to use, modify, and distribute this tracker.
