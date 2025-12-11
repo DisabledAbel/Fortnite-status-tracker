@@ -1,5 +1,5 @@
 {
-  "overall_status": "All Systems Operational",
+  "overall_status": "Minor Service Outage",
   "services": {
     "Fortnite": "operational",
     "Website": "operational",
@@ -39,7 +39,7 @@
     "Developer Portal": "operational",
     "Rocket League Sideswipe": "operational",
     "Publishing Tools": "operational",
-    "Fall Guys": "operational",
+    "Fall Guys": "partial_outage",
     "Friends": "operational",
     "Leaderboards": "operational",
     "Epic Games Store": "operational",
@@ -70,6 +70,6 @@
     "Sketchfab": "operational",
     "Voice": "operational"
   },
-  "last_checked": "2025-12-11T17:15:50.995Z",
+  "last_checked": "2025-12-11T17:47:14.381Z",
   "source": "https://status.epicgames.com/api/v2/summary.json"
 }
