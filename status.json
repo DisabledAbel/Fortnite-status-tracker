@@ -1,7 +1,7 @@
 {
-  "overall_status": "Partial System Outage",
+  "overall_status": "All Systems Operational",
   "services": {
-    "Fortnite": "partial_outage",
+    "Fortnite": "operational",
     "Website": "operational",
     "Login": "operational",
     "Website/Portal": "operational",
@@ -20,7 +20,7 @@
     "Game Services - Authentication": "operational",
     "Achievements": "operational",
     "1.0 - 2.0 Account Migration": "operational",
-    "Purchasing/Refunding": "major_outage",
+    "Purchasing/Refunding": "operational",
     "Voice Chat": "operational",
     "Fortnite Festival": "operational",
     "Publishing": "operational",
@@ -34,7 +34,7 @@
     "Store Browsing": "operational",
     "Creator Analytics": "operational",
     "Stats & Leaderboards": "operational",
-    "Item Shop": "partial_outage",
+    "Item Shop": "operational",
     "Custom Invites": "operational",
     "Developer Portal": "operational",
     "Rocket League Sideswipe": "operational",
@@ -42,7 +42,7 @@
     "Fall Guys": "operational",
     "Friends": "operational",
     "Leaderboards": "operational",
-    "Epic Games Store": "major_outage",
+    "Epic Games Store": "operational",
     "Game Details": "operational",
     "Epic Online Services": "operational",
     "Lobbies": "operational",
@@ -70,6 +70,6 @@
     "Sketchfab": "operational",
     "Voice": "operational"
   },
-  "last_checked": "2025-12-12T05:58:47.314Z",
+  "last_checked": "2025-12-12T06:32:39.984Z",
   "source": "https://status.epicgames.com/api/v2/summary.json"
 }
