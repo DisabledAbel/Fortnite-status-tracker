@@ -1,19 +1,27 @@
 name: Build and Release
 
 on:
+  # Runs when you push a tag like v1.0.0
   push:
     tags:
-      - 'v*'  # build on tags like v1.0.0
+      - 'v*'
+
+  # Runs when you publish a release using GitHub UI
+  release:
+    types: [published]
+
+  # Lets you manually run it from the Actions tab
+  workflow_dispatch:
 
 jobs:
-  build:
+  build-release:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
@@ -21,12 +29,12 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Prepare build
+      - name: Build project files
         run: |
           mkdir -p dist
           cp -r * dist/
 
-      - name: Zip artifact
+      - name: Create ZIP archive
         run: |
           cd dist
           zip -r fortnite-status-tracker.zip .
