@@ -2,105 +2,131 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Fortnite Status Tracker</title>
+  <title>Fortnite Status</title>
+
   <style>
-    body { font-family: sans-serif; margin: 20px; background: #f9f9f9; color: #333; }
-    h1 { text-align: center; margin-bottom: 20px; }
-    #searchInput { width: 100%; padding: 12px; margin-bottom: 15px; font-size: 16px; border-radius: 6px; border: 1px solid #ccc; }
-    #statusList { list-style: none; padding: 0; margin: 0; }
-    #statusList li { padding: 10px; margin-bottom: 8px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; transition: background 0.3s; }
-    .online { background-color: #d4edda; color: #155724; }
-    .degraded { background-color: #fff3cd; color: #856404; }
-    .offline { background-color: #f8d7da; color: #721c24; }
-    .icon { margin-right: 8px; font-size: 18px; }
-    mark { background-color: #ffeeba; padding: 0; }
-    #lastUpdated { margin-top: 15px; font-size: 14px; text-align: center; color: #666; }
+    body {
+      background-color: #0b1d3a;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #00b3ff;
+      letter-spacing: 0.5px;
+    }
+
+    #updated {
+      font-size: 13px;
+      color: #9bbcff;
+      margin-bottom: 10px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      font-size: 16px;
+      border-radius: 4px;
+      border: none;
+      outline: none;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      padding: 10px;
+      margin-bottom: 6px;
+      background-color: #122a52;
+      border-radius: 4px;
+      border-left: 4px solid #1f3b6d;
+    }
+
+    .online {
+      border-left-color: #2ecc71;
+      color: #c9f7dc;
+    }
+
+    .degraded {
+      border-left-color: #f1c40f;
+      color: #fff1b8;
+    }
+
+    .offline {
+      border-left-color: #e74c3c;
+      color: #ffd6d1;
+    }
   </style>
 </head>
 <body>
 
-<h1>Fortnite Status Tracker</h1>
-<input type="text" id="searchInput" placeholder="Search services…">
+<h1>Fortnite Status</h1>
+<div id="updated">Last updated: —</div>
+
+<input type="text" id="searchInput" placeholder="Search services">
+
 <ul id="statusList"></ul>
-<div id="lastUpdated">Last Updated: --:--:--</div>
 
 <script>
   const searchInput = document.getElementById('searchInput');
   const statusList = document.getElementById('statusList');
-  const lastUpdated = document.getElementById('lastUpdated');
-  let statusData = [];
+  const updated = document.getElementById('updated');
+  let services = [];
 
-  // Fetch status JSON
-  async function fetchStatus() {
-    try {
-      const response = await fetch('/status.json'); // adjust path if needed
-      const data = await response.json();
-      statusData = data;
-      renderList(statusData);
-      updateTimestamp();
-    } catch (err) {
-      console.error('Error fetching status:', err);
-    }
+  function loadStatus() {
+    fetch('/status.json')
+      .then(res => res.json())
+      .then(data => {
+        services = data;
+        applySearch();
+        updateTimestamp();
+      })
+      .catch(() => {
+        statusList.innerHTML = '<li>Failed to load status</li>';
+      });
   }
 
-  // Render list with color coding, icons, and highlighted search
-  function renderList(data) {
-    const query = searchInput.value.toLowerCase();
+  function updateTimestamp() {
+    const now = new Date();
+    updated.textContent = 'Last updated: ' + now.toLocaleTimeString();
+  }
 
-    // Sort by status priority: Offline > Degraded > Online
-    const sortedData = data.sort((a,b) => {
-      const priority = {offline: 0, degraded: 1, online: 2};
-      return (priority[a.status.toLowerCase()] || 3) - (priority[b.status.toLowerCase()] || 3);
-    });
-
+  function render(list) {
     statusList.innerHTML = '';
-    sortedData.forEach(item => {
+    list.forEach(service => {
       const li = document.createElement('li');
 
-      // Determine class and icon
-      let statusClass = '';
-      let icon = '';
-      if (item.status.toLowerCase() === 'online') { statusClass = 'online'; icon = '✔️'; }
-      else if (item.status.toLowerCase() === 'degraded') { statusClass = 'degraded'; icon = '⚠️'; }
-      else if (item.status.toLowerCase() === 'offline') { statusClass = 'offline'; icon = '❌'; }
+      const status = service.status.toLowerCase();
+      if (status.includes('online')) li.classList.add('online');
+      else if (status.includes('degraded')) li.classList.add('degraded');
+      else if (status.includes('offline')) li.classList.add('offline');
 
-      li.className = statusClass;
-
-      // Highlight search matches
-      const nameHTML = highlightText(item.name, query);
-      const statusHTML = highlightText(item.status, query);
-
-      li.innerHTML = `<span><span class="icon">${icon}</span>${nameHTML}</span><span>${statusHTML}</span>`;
+      li.textContent = service.name + ' - ' + service.status;
       statusList.appendChild(li);
     });
   }
 
-  // Highlight matching text
-  function highlightText(text, query) {
-    if (!query) return text;
-    const regex = new RegExp(`(${escapeRegex(query)})`, 'gi');
-    return text.replace(regex, '<mark>$1</mark>');
+  function applySearch() {
+    const q = searchInput.value.toLowerCase();
+    render(
+      services.filter(s =>
+        s.name.toLowerCase().includes(q) ||
+        s.status.toLowerCase().includes(q)
+      )
+    );
   }
 
-  function escapeRegex(string) {
-    return string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-  }
+  searchInput.addEventListener('input', applySearch);
 
-  // Update timestamp
-  function updateTimestamp() {
-    const now = new Date();
-    const timeStr = now.toLocaleTimeString();
-    lastUpdated.textContent = `Last Updated: ${timeStr}`;
-  }
+  // Initial load
+  loadStatus();
 
-  // Live search
-  searchInput.addEventListener('keyup', () => {
-    renderList(statusData);
-  });
-
-  // Auto-refresh every 30 seconds
-  fetchStatus(); // initial fetch
-  setInterval(fetchStatus, 30000);
+  // Auto refresh every 60 seconds
+  setInterval(loadStatus, 60000);
 </script>
 
 </body>
