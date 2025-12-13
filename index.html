@@ -3,29 +3,100 @@
 <head>
   <meta charset="UTF-8">
   <title>Fortnite Status</title>
+
+  <style>
+    body {
+      background: linear-gradient(135deg, #050b2e, #1a0033);
+      color: #e6e6ff;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #b8a8ff;
+      text-shadow: 0 0 8px rgba(184, 168, 255, 0.6);
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      padding: 10px;
+      margin-bottom: 8px;
+      border-radius: 6px;
+      text-shadow: 0 0 4px rgba(184, 168, 255, 0.4);
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    li:hover {
+      background: rgba(255, 255, 255, 0.12);
+      transform: translateY(-2px);
+    }
+
+    /* Status colors */
+    .online {
+      background-color: rgba(46, 204, 113, 0.2);
+      border-left: 4px solid #2ecc71;
+      color: #c9f7dc;
+    }
+
+    .degraded {
+      background-color: rgba(241, 196, 15, 0.2);
+      border-left: 4px solid #f1c40f;
+      color: #fff1b8;
+    }
+
+    .offline {
+      background-color: rgba(231, 76, 60, 0.2);
+      border-left: 4px solid #e74c3c;
+      color: #ffd6d1;
+    }
+  </style>
 </head>
 <body>
 
 <h1>Fortnite Service Status</h1>
 
-<ul id="status"></ul>
+<ul id="statusList"></ul>
 
 <script>
-  fetch('/status.json')
-    .then(response => response.json())
-    .then(data => {
-      const list = document.getElementById('status');
+  const statusList = document.getElementById('statusList');
+  let services = [];
 
-      data.forEach(service => {
-        const li = document.createElement('li');
-        li.textContent = service.name + ': ' + service.status;
-        list.appendChild(li);
+  function loadStatus() {
+    fetch('/status.json')
+      .then(res => res.json())
+      .then(data => {
+        services = data;
+        render(services);
+      })
+      .catch(() => {
+        statusList.innerHTML = '<li>Unable to load status</li>';
       });
-    })
-    .catch(() => {
-      document.getElementById('status').innerHTML =
-        '<li>Unable to load status</li>';
+  }
+
+  function render(list) {
+    statusList.innerHTML = '';
+    list.forEach(service => {
+      const li = document.createElement('li');
+      const status = service.status.toLowerCase();
+
+      if (status.includes('online')) li.classList.add('online');
+      else if (status.includes('degraded')) li.classList.add('degraded');
+      else if (status.includes('offline')) li.classList.add('offline');
+
+      li.textContent = service.name + ': ' + service.status;
+      statusList.appendChild(li);
     });
+  }
+
+  // Initial load
+  loadStatus();
+
+  // Auto-refresh every 60 seconds
+  setInterval(loadStatus, 60000);
 </script>
 
 </body>
