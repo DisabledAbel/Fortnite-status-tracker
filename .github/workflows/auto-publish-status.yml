@@ -2,26 +2,21 @@ name: Auto Update & Publish Fortnite Status
 
 on:
   schedule:
-    - cron: "*/3 * * * *"   # Run every 3 minutes
-  workflow_dispatch:        # Allow manual trigger
+    - cron: "*/3 * * * *"
+  workflow_dispatch:
 
-# Prevent ANY run from being skipped or cancelled
-concurrency:
-  group: fortnite-status-tracker
-  cancel-in-progress: false
+permissions:
+  contents: write
 
 jobs:
   update-status:
     runs-on: ubuntu-latest
-    timeout-minutes: 10     # Prevent stuck hangs but allow enough time
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -29,21 +24,19 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run status update script
+      - name: Run status updater
         run: node index.js
 
-      - name: Check for changed files
+      - name: Commit changes only if needed
         run: |
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # Check for changes
           if [[ -n "$(git status --porcelain)" ]]; then
-            echo "Changes detected. Committing..."
-            git add -A
-            git commit -m "Auto-update: Fortnite Status $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+            git add .
+            git commit -m "Auto update Fortnite status"
             git push
+            echo "Changes detected and pushed."
           else
-            echo "No updates to commit."
+            echo "No changes detected. Skipping commit."
           fi
-          
