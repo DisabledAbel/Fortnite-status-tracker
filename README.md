@@ -33,6 +33,17 @@ You can also deploy the JSON output as a public API using **Vercel**.
 
 ---
 
+## How to Access the Status JSON
+
+The primary output of this project is a **public JSON endpoint** that always reflects the current Fortnite service status.
+
+### ✅ Status JSON Endpoint (Use This)
+
+```bash
+https://your-project.vercel.app/status.json
+```
+
+
 ## One-Click Deploy to Vercel
 
 Deploy this tracker instantly using the button below:
