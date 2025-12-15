@@ -1,7 +1,9 @@
 import fs from "fs";
+import path from "path";
 import crypto from "crypto";
 
 const STATUS_FILE = "public/status.json";
+const STATUS_DIR = path.dirname(STATUS_FILE);
 
 function hash(obj) {
   return crypto
@@ -10,10 +12,14 @@ function hash(obj) {
     .digest("hex");
 }
 
+// Ensure directory exists
+if (!fs.existsSync(STATUS_DIR)) {
+  fs.mkdirSync(STATUS_DIR, { recursive: true });
+}
+
 async function run() {
   const now = new Date().toISOString();
 
-  // 1. Fetch Fortnite status (example structure)
   const response = await fetch("https://status.epicgames.com/api/v2/summary.json");
   const data = await response.json();
 
@@ -29,16 +35,16 @@ async function run() {
     existing = JSON.parse(fs.readFileSync(STATUS_FILE, "utf8"));
   }
 
-  // 2. Compare only the meaningful fields
-  const oldHash = existing ? hash({
-    status: existing.status,
-    incidents: existing.incidents,
-    message: existing.message
-  }) : null;
+  const oldHash = existing
+    ? hash({
+        status: existing.status,
+        incidents: existing.incidents,
+        message: existing.message
+      })
+    : null;
 
   const newHash = hash(newStatusCore);
 
-  // 3. If nothing changed, only update lastChecked and exit
   if (oldHash === newHash && existing) {
     existing.lastChecked = now;
     fs.writeFileSync(STATUS_FILE, JSON.stringify(existing, null, 2));
@@ -46,7 +52,6 @@ async function run() {
     return;
   }
 
-  // 4. Status changed → update lastChanged
   const output = {
     ...newStatusCore,
     lastChecked: now,
