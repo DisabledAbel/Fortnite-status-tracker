@@ -1,61 +1,7 @@
 {
-  "status": "MINOR",
-  "incidents": [
-    {
-      "id": "x1h17gppcn4m",
-      "name": "Publishing Tools Previous Values Appear Blank",
-      "status": "investigating",
-      "created_at": "2025-12-15T05:08:33.744Z",
-      "updated_at": "2025-12-15T05:08:33.836Z",
-      "monitoring_at": null,
-      "resolved_at": null,
-      "impact": "minor",
-      "shortlink": "https://stspg.io/djww7pxdrlg9",
-      "started_at": "2025-12-15T05:08:33.736Z",
-      "page_id": "ft308v428dv3",
-      "incident_updates": [
-        {
-          "id": "kz9s6475mjqh",
-          "status": "investigating",
-          "body": "We're working to resolve an issue where some fields in the Publishing Tools appear blank when edited. Previous data in these fields is still saved, and we're working to resolve this visual issue now.",
-          "incident_id": "x1h17gppcn4m",
-          "created_at": "2025-12-15T05:08:33.833Z",
-          "updated_at": "2025-12-15T05:08:33.833Z",
-          "display_at": "2025-12-15T05:08:33.833Z",
-          "affected_components": [
-            {
-              "code": "4r5487vgf40v",
-              "name": "Epic Games Store - Publishing Tools",
-              "old_status": "operational",
-              "new_status": "degraded_performance"
-            }
-          ],
-          "deliver_notifications": true,
-          "custom_tweet": null,
-          "tweet_id": null
-        }
-      ],
-      "components": [
-        {
-          "id": "4r5487vgf40v",
-          "name": "Publishing Tools",
-          "status": "degraded_performance",
-          "created_at": "2023-05-05T18:45:36.328Z",
-          "updated_at": "2025-12-15T05:08:33.783Z",
-          "position": 6,
-          "description": null,
-          "showcase": false,
-          "start_date": "2023-05-05",
-          "group_id": "khtrdkxhxjd9",
-          "page_id": "ft308v428dv3",
-          "group": false,
-          "only_show_if_degraded": false
-        }
-      ],
-      "reminder_intervals": null
-    }
-  ],
-  "message": "Partially Degraded Service",
-  "lastChecked": "2025-12-15T05:54:09.336Z",
-  "lastChanged": "2025-12-15T05:15:14.718Z"
+  "status": "NONE",
+  "incidents": [],
+  "message": "All Systems Operational",
+  "lastChecked": "2025-12-15T06:16:46.315Z",
+  "lastChanged": "2025-12-15T06:16:46.315Z"
 }
