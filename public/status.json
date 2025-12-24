@@ -1,61 +1,7 @@
 {
-  "status": "MAJOR",
-  "incidents": [
-    {
-      "id": "y9xmxsrsyfzs",
-      "name": "EOS Matchmaking Issues",
-      "status": "investigating",
-      "created_at": "2025-12-24T00:56:19.929Z",
-      "updated_at": "2025-12-24T00:56:20.027Z",
-      "monitoring_at": null,
-      "resolved_at": null,
-      "impact": "critical",
-      "shortlink": "https://stspg.io/qh178fjkdt62",
-      "started_at": "2025-12-24T00:56:19.921Z",
-      "page_id": "ft308v428dv3",
-      "incident_updates": [
-        {
-          "id": "5sf1pt7zb609",
-          "status": "investigating",
-          "body": "We are investigating matchmaking issues affecting Epic Online Services and are working on a solution. \nWe'll provide an update once the issues have been resolved.",
-          "incident_id": "y9xmxsrsyfzs",
-          "created_at": "2025-12-24T00:56:20.024Z",
-          "updated_at": "2025-12-24T00:56:20.024Z",
-          "display_at": "2025-12-24T00:56:20.024Z",
-          "affected_components": [
-            {
-              "code": "t067j4ff1nm4",
-              "name": "Epic Online Services - Matchmaking",
-              "old_status": "operational",
-              "new_status": "major_outage"
-            }
-          ],
-          "deliver_notifications": true,
-          "custom_tweet": null,
-          "tweet_id": null
-        }
-      ],
-      "components": [
-        {
-          "id": "t067j4ff1nm4",
-          "name": "Matchmaking",
-          "status": "major_outage",
-          "created_at": "2025-12-24T00:52:12.050Z",
-          "updated_at": "2025-12-24T00:56:19.969Z",
-          "position": 22,
-          "description": null,
-          "showcase": false,
-          "start_date": "2025-12-24",
-          "group_id": "zwclljjbtmfs",
-          "page_id": "ft308v428dv3",
-          "group": false,
-          "only_show_if_degraded": false
-        }
-      ],
-      "reminder_intervals": null
-    }
-  ],
-  "message": "Partial System Outage",
-  "lastChecked": "2025-12-24T01:14:32.674Z",
-  "lastChanged": "2025-12-24T01:14:32.674Z"
+  "status": "NONE",
+  "incidents": [],
+  "message": "All Systems Operational",
+  "lastChecked": "2025-12-24T02:59:47.139Z",
+  "lastChanged": "2025-12-24T02:59:47.139Z"
 }
