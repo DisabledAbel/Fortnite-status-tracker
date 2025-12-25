@@ -1,7 +1,231 @@
 {
-  "status": "NONE",
-  "incidents": [],
-  "message": "All Systems Operational",
-  "lastChecked": "2025-12-25T01:25:48.120Z",
-  "lastChanged": "2025-12-24T02:59:47.139Z"
+  "status": "MAJOR",
+  "incidents": [
+    {
+      "id": "jt0gysc2dg1t",
+      "name": "Login issues impacting Fortnite, Rocket League, Fall Guys and EOS",
+      "status": "investigating",
+      "created_at": "2025-12-25T02:01:41.284Z",
+      "updated_at": "2025-12-25T03:04:43.251Z",
+      "monitoring_at": null,
+      "resolved_at": null,
+      "impact": "critical",
+      "shortlink": "https://stspg.io/1wljvzz347z0",
+      "started_at": "2025-12-25T02:01:41.266Z",
+      "page_id": "ft308v428dv3",
+      "incident_updates": [
+        {
+          "id": "nlj3pt7q63cj",
+          "status": "investigating",
+          "body": "We're still working on bringing Fortnite, Rocket League, Fall Guys, and Epic Online Services back online and restoring matchmaking to normal. Players currently logged in may see themselves kicked from the game while work to bring services back online.",
+          "incident_id": "jt0gysc2dg1t",
+          "created_at": "2025-12-25T03:04:43.248Z",
+          "updated_at": "2025-12-25T03:04:43.248Z",
+          "display_at": "2025-12-25T03:04:43.248Z",
+          "affected_components": [
+            {
+              "code": "gp7pb08zbsm1",
+              "name": "Fortnite - Login",
+              "old_status": "major_outage",
+              "new_status": "major_outage"
+            },
+            {
+              "code": "n62jd9mnxgnf",
+              "name": "Fortnite - Matchmaking",
+              "old_status": "operational",
+              "new_status": "major_outage"
+            },
+            {
+              "code": "cdlw7xs52f66",
+              "name": "Epic Online Services - Epic Account Services - Authentication",
+              "old_status": "major_outage",
+              "new_status": "major_outage"
+            },
+            {
+              "code": "r72khk011yj0",
+              "name": "Epic Online Services - Game Services - Authentication",
+              "old_status": "major_outage",
+              "new_status": "major_outage"
+            },
+            {
+              "code": "vgmkg5w735pc",
+              "name": "Rocket League - Login",
+              "old_status": "major_outage",
+              "new_status": "major_outage"
+            },
+            {
+              "code": "jbp0183v67vj",
+              "name": "Rocket League - Matchmaking",
+              "old_status": "operational",
+              "new_status": "major_outage"
+            },
+            {
+              "code": "xxr2fjy0233g",
+              "name": "Fall Guys - Login",
+              "old_status": "major_outage",
+              "new_status": "major_outage"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "sq93l4phm63l",
+          "status": "investigating",
+          "body": "We are investigating login issues impacting Fortnite, Rocket League, Fall Guys, and Epic Online Services. We are working on a fix ASAP and will share an update once this has been resolved.",
+          "incident_id": "jt0gysc2dg1t",
+          "created_at": "2025-12-25T02:01:41.450Z",
+          "updated_at": "2025-12-25T02:01:41.450Z",
+          "display_at": "2025-12-25T02:01:41.450Z",
+          "affected_components": [
+            {
+              "code": "gp7pb08zbsm1",
+              "name": "Fortnite - Login",
+              "old_status": "operational",
+              "new_status": "major_outage"
+            },
+            {
+              "code": "cdlw7xs52f66",
+              "name": "Epic Online Services - Epic Account Services - Authentication",
+              "old_status": "operational",
+              "new_status": "major_outage"
+            },
+            {
+              "code": "r72khk011yj0",
+              "name": "Epic Online Services - Game Services - Authentication",
+              "old_status": "operational",
+              "new_status": "major_outage"
+            },
+            {
+              "code": "vgmkg5w735pc",
+              "name": "Rocket League - Login",
+              "old_status": "operational",
+              "new_status": "major_outage"
+            },
+            {
+              "code": "xxr2fjy0233g",
+              "name": "Fall Guys - Login",
+              "old_status": "operational",
+              "new_status": "major_outage"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [
+        {
+          "id": "vgmkg5w735pc",
+          "name": "Login",
+          "status": "major_outage",
+          "created_at": "2020-09-23T17:13:15.273Z",
+          "updated_at": "2025-12-25T02:01:41.332Z",
+          "position": 1,
+          "description": null,
+          "showcase": false,
+          "start_date": "2020-09-23",
+          "group_id": "d4t23tydt16z",
+          "page_id": "ft308v428dv3",
+          "group": false,
+          "only_show_if_degraded": false
+        },
+        {
+          "id": "xxr2fjy0233g",
+          "name": "Login",
+          "status": "major_outage",
+          "created_at": "2022-01-25T21:58:51.898Z",
+          "updated_at": "2025-12-25T02:01:41.350Z",
+          "position": 1,
+          "description": null,
+          "showcase": false,
+          "start_date": "2022-01-25",
+          "group_id": "dht2phs32530",
+          "page_id": "ft308v428dv3",
+          "group": false,
+          "only_show_if_degraded": false
+        },
+        {
+          "id": "cdlw7xs52f66",
+          "name": "Epic Account Services - Authentication",
+          "status": "major_outage",
+          "created_at": "2024-02-22T21:28:58.016Z",
+          "updated_at": "2025-12-25T02:01:41.369Z",
+          "position": 1,
+          "description": null,
+          "showcase": false,
+          "start_date": "2024-02-22",
+          "group_id": "zwclljjbtmfs",
+          "page_id": "ft308v428dv3",
+          "group": false,
+          "only_show_if_degraded": false
+        },
+        {
+          "id": "r72khk011yj0",
+          "name": "Game Services - Authentication",
+          "status": "major_outage",
+          "created_at": "2024-02-22T21:30:50.796Z",
+          "updated_at": "2025-12-25T02:01:41.386Z",
+          "position": 2,
+          "description": null,
+          "showcase": false,
+          "start_date": "2024-02-22",
+          "group_id": "zwclljjbtmfs",
+          "page_id": "ft308v428dv3",
+          "group": false,
+          "only_show_if_degraded": false
+        },
+        {
+          "id": "gp7pb08zbsm1",
+          "name": "Login",
+          "status": "major_outage",
+          "created_at": "2018-02-14T19:59:10.671Z",
+          "updated_at": "2025-12-25T02:01:41.402Z",
+          "position": 3,
+          "description": null,
+          "showcase": false,
+          "start_date": null,
+          "group_id": "wf1ys2kx4pxc",
+          "page_id": "ft308v428dv3",
+          "group": false,
+          "only_show_if_degraded": false
+        },
+        {
+          "id": "jbp0183v67vj",
+          "name": "Matchmaking",
+          "status": "major_outage",
+          "created_at": "2020-09-23T17:23:05.444Z",
+          "updated_at": "2025-12-25T03:04:43.194Z",
+          "position": 4,
+          "description": null,
+          "showcase": false,
+          "start_date": "2020-09-23",
+          "group_id": "d4t23tydt16z",
+          "page_id": "ft308v428dv3",
+          "group": false,
+          "only_show_if_degraded": false
+        },
+        {
+          "id": "n62jd9mnxgnf",
+          "name": "Matchmaking",
+          "status": "major_outage",
+          "created_at": "2018-02-14T20:00:00.889Z",
+          "updated_at": "2025-12-25T03:04:43.212Z",
+          "position": 7,
+          "description": null,
+          "showcase": false,
+          "start_date": null,
+          "group_id": "wf1ys2kx4pxc",
+          "page_id": "ft308v428dv3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": null
+    }
+  ],
+  "message": "Partial System Outage",
+  "lastChecked": "2025-12-25T03:09:03.729Z",
+  "lastChanged": "2025-12-25T03:09:03.729Z"
 }
