@@ -14,7 +14,8 @@ export default function FortniteStatusDashboard() {
   async function loadStatus() {
     try {
       setLoading(true);
-      const res = await fetch("/status.json", { cache: "no-store" });
+      const statusUrl = import.meta.env.VITE_STATUS_URL || process.env.NEXT_PUBLIC_STATUS_URL;
+      const res = await fetch(statusUrl, { cache: "no-store" });
       if (!res.ok) throw new Error("Failed to load status");
       const data = await res.json();
       setStatus(data);
