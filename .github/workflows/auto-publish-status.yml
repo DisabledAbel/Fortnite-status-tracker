@@ -1,42 +1,30 @@
-name: Auto Update & Publish Fortnite Status
+name: Update Fortnite Status
 
 on:
   schedule:
-    - cron: "*/3 * * * *"
+    - cron: "*/5 * * * *" # every 5 minutes
   workflow_dispatch:
 
-permissions:
-  contents: write
-
 jobs:
-  update-status:
+  update:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Install dependencies
-        run: npm install
-
       - name: Run status updater
-        run: node index.js
+        run: npm run update
 
-      - name: Commit changes only if needed
+      - name: Commit changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-
-          if [[ -n "$(git status --porcelain)" ]]; then
-            git add .
-            git commit -m "Auto update Fortnite status"
-            git push
-            echo "Changes detected and pushed."
-          else
-            echo "No changes detected. Skipping commit."
-          fi
+          git add public/status.json public/status-badge.json
+          git commit -m "Update Fortnite status" || echo "No changes"
+          git push
