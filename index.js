@@ -1,65 +1,50 @@
 import fs from "fs";
-import path from "path";
-import crypto from "crypto";
 
-const STATUS_FILE = "public/status.json";
-const STATUS_DIR = path.dirname(STATUS_FILE);
-
-function hash(obj) {
-  return crypto
-    .createHash("sha256")
-    .update(JSON.stringify(obj))
-    .digest("hex");
-}
-
-// Ensure directory exists
-if (!fs.existsSync(STATUS_DIR)) {
-  fs.mkdirSync(STATUS_DIR, { recursive: true });
-}
+const API_URL = "https://status.epicgames.com/api/v2/components.json";
 
 async function run() {
-  const now = new Date().toISOString();
+  const res = await fetch(API_URL, {
+    headers: {
+      "User-Agent": "Fortnite-Status-Tracker"
+    }
+  });
 
-  const response = await fetch("https://status.epicgames.com/api/v2/summary.json");
-  const data = await response.json();
-
-  const newStatusCore = {
-    status: data.status.indicator.toUpperCase(),
-    incidents: data.incidents ?? [],
-    message: data.status.description
-  };
-
-  let existing = null;
-
-  if (fs.existsSync(STATUS_FILE)) {
-    existing = JSON.parse(fs.readFileSync(STATUS_FILE, "utf8"));
+  if (!res.ok) {
+    throw new Error(`API failed: ${res.status}`);
   }
 
-  const oldHash = existing
-    ? hash({
-        status: existing.status,
-        incidents: existing.incidents,
-        message: existing.message
-      })
-    : null;
+  const data = await res.json();
 
-  const newHash = hash(newStatusCore);
+  const fortnite = data.components.find(c =>
+    c.name.toLowerCase().includes("fortnite")
+  );
 
-  if (oldHash === newHash && existing) {
-    existing.lastChecked = now;
-    fs.writeFileSync(STATUS_FILE, JSON.stringify(existing, null, 2));
-    console.log("No status change detected");
-    return;
-  }
+  const status = fortnite?.status || "unknown";
 
   const output = {
-    ...newStatusCore,
-    lastChecked: now,
-    lastChanged: now
+    service: "Fortnite",
+    status,
+    updated_at: new Date().toISOString()
   };
 
-  fs.writeFileSync(STATUS_FILE, JSON.stringify(output, null, 2));
-  console.log("Status change detected and saved");
+  const badge = {
+    schemaVersion: 1,
+    label: "Fortnite",
+    message: status.replace("_", " "),
+    color:
+      status === "operational"
+        ? "brightgreen"
+        : status === "degraded_performance"
+        ? "yellow"
+        : "red"
+  };
+
+  fs.mkdirSync("public", { recursive: true });
+
+  fs.writeFileSync("public/status.json", JSON.stringify(output, null, 2));
+  fs.writeFileSync("public/status-badge.json", JSON.stringify(badge, null, 2));
+
+  console.log("Status updated:", status);
 }
 
 run().catch(err => {
