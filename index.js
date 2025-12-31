@@ -2,104 +2,100 @@ import fs from "fs";
 
 const API_URL = "https://status.epicgames.com/api/v2/summary.json";
 
-function getFortniteComponents(components = []) {
-  return components.filter(c =>
-    c.name.toLowerCase().includes("fortnite")
-  );
+/* ---------- HELPERS ---------- */
+
+function normalize(str) {
+  return str.toLowerCase();
 }
 
-function getFortniteIncidents(incidents = []) {
-  return incidents.filter(i =>
-    i.name.toLowerCase().includes("fortnite")
-  );
+function isOperational(components) {
+  return components.every(c => c.status === "operational");
 }
 
-function computeStatus(components) {
-  return components.some(c => c.status !== "operational")
-    ? "ISSUE"
-    : "NONE";
-}
-
-function getLastChanged(items = []) {
-  const timestamps = items
+function lastChanged(items = []) {
+  const times = items
     .map(i => new Date(i.updated_at).getTime())
     .filter(Boolean);
 
-  return timestamps.length
-    ? new Date(Math.max(...timestamps)).toISOString()
-    : null;
+  return times.length ? new Date(Math.max(...times)).toISOString() : null;
 }
+
+function mapMode(name, components) {
+  const relevant = components.filter(c =>
+    normalize(c.name).includes(name)
+  );
+
+  return {
+    status: isOperational(relevant) ? "NONE" : "ISSUE",
+    message: isOperational(relevant)
+      ? "Operational"
+      : "Issues Detected",
+    lastChanged: lastChanged(relevant),
+    components: relevant.map(c => ({
+      id: c.id,
+      name: c.name,
+      status: c.status,
+      updated_at: c.updated_at
+    }))
+  };
+}
+
+/* ---------- MAIN ---------- */
 
 async function run() {
   const res = await fetch(API_URL, {
-    headers: {
-      "User-Agent": "Fortnite-Status-Tracker"
-    }
+    headers: { "User-Agent": "Fortnite-Status-Tracker" }
   });
 
-  if (!res.ok) {
-    throw new Error(`Epic API error: ${res.status}`);
-  }
+  if (!res.ok) throw new Error(`Epic API error ${res.status}`);
 
   const data = await res.json();
 
-  const fortniteComponents = getFortniteComponents(data.components);
-  const fortniteIncidents = getFortniteIncidents(data.incidents);
+  const fortniteComponents = data.components.filter(c =>
+    normalize(c.name).includes("fortnite")
+  );
 
-  const status = computeStatus(fortniteComponents);
+  const fortniteIncidents = data.incidents.filter(i =>
+    normalize(i.name).includes("fortnite")
+  );
+
+  const globalStatus = isOperational(fortniteComponents)
+    ? "NONE"
+    : "ISSUE";
 
   const output = {
-    /* ================= REQUIRED FIELDS ================= */
+    /* ===== REQUIRED (UNCHANGED) ===== */
 
-    status,
-    incidents: fortniteIncidents.map(i => ({
-      id: i.id,
-      name: i.name,
-      status: i.status,
-      impact: i.impact,
-      created_at: i.created_at,
-      updated_at: i.updated_at,
-      monitoring_at: i.monitoring_at,
-      resolved_at: i.resolved_at,
-      shortlink: i.shortlink,
-      updates: i.incident_updates
-    })),
+    status: globalStatus,
+    incidents: fortniteIncidents,
     message:
-      status === "NONE"
+      globalStatus === "NONE"
         ? "All Systems Operational"
         : "Service Disruption Detected",
     lastChecked: new Date().toISOString(),
-    lastChanged: getLastChanged([
+    lastChanged: lastChanged([
       ...fortniteComponents,
       ...fortniteIncidents
     ]),
 
-    /* ================= EXTENDED DATA ================= */
+    /* ===== MODE BREAKDOWN ===== */
 
-    components: fortniteComponents.map(c => ({
-      id: c.id,
-      name: c.name,
-      status: c.status,
-      description: c.description,
-      created_at: c.created_at,
-      updated_at: c.updated_at,
-      position: c.position,
-      group_id: c.group_id,
-      page_id: c.page_id
-    })),
+    modes: {
+      battleRoyale: mapMode("battle royale", fortniteComponents),
+      creative: mapMode("creative", fortniteComponents),
+      matchmaking: mapMode("matchmaking", fortniteComponents),
+      services: mapMode("service", fortniteComponents)
+    },
 
+    /* ===== FULL DATA ===== */
+
+    components: fortniteComponents,
     epic: {
       page: data.page,
-      scheduled_maintenances: data.scheduled_maintenances,
       status: data.status,
       updated_at: data.page?.updated_at
     },
-
-    raw: {
-      components: data.components,
-      incidents: data.incidents,
-      scheduled_maintenances: data.scheduled_maintenances
-    }
+    raw: data
   };
 
   fs.mkdirSync("public", { recursive: true });
@@ -108,9 +104,7 @@ async function run() {
     JSON.stringify(output, null, 2)
   );
 
-  console.log(
-    `[OK] Fortnite status updated → ${status}`
-  );
+  console.log("[OK] Fortnite modes updated");
 }
 
 run().catch(err => {
