@@ -1,20 +1,9 @@
 {
-  "name": "fortnite-status-abel",
-  "version": "1.0.554",
-  "description": "Fetch Fortnite server status from Epic Games",
-  "main": "index.js",
+  "name": "fortnite-status-tracker",
+  "version": "1.0.0",
   "type": "module",
+  "private": true,
   "scripts": {
-    "test": "node index.js"
-  },
-  "keywords": [
-    "fortnite",
-    "status",
-    "epicgames"
-  ],
-  "author": "Abel",
-  "license": "MIT",
-  "dependencies": {
-    "node-fetch": "^3.3.2"
+    "update": "node index.js"
   }
 }
