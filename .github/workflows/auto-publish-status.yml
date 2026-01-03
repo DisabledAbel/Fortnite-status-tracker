@@ -2,7 +2,7 @@ name: Update Fortnite Status
 
 on:
   schedule:
-    - cron: "*/5 * * * *" # every 5 minutes
+    - cron: "*/5 * * * *"
   workflow_dispatch:
 
 jobs:
@@ -18,6 +18,9 @@ jobs:
         with:
           node-version: 20
 
+      - name: Install dependencies
+        run: npm ci
+
       - name: Run status updater
         run: npm run update
 
@@ -25,6 +28,14 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add public/status.json public/status-badge.json
-          git commit -m "Update Fortnite status" || echo "No changes"
-          git push
+
+          # Add anything in public/, but don't fail if empty
+          git add public || true
+
+          # Only commit if something actually changed
+          if ! git diff --cached --quiet; then
+            git commit -m "Update Fortnite status"
+            git push
+          else
+            echo "No changes to commit"
+          fi
