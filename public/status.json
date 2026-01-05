@@ -2,7 +2,7 @@
   "status": "NONE",
   "incidents": [],
   "message": "All Systems Operational",
-  "lastChecked": "2026-01-05T19:27:22.019Z",
+  "lastChecked": "2026-01-05T19:41:52.178Z",
   "lastChanged": "2025-12-18T11:44:55.096Z",
   "modes": {
     "battleRoyale": {
@@ -115,13 +115,13 @@
       "name": "Epic Games Public",
       "url": "https://status.epicgames.com",
       "time_zone": "Etc/UTC",
-      "updated_at": "2026-01-05T19:01:04.330Z"
+      "updated_at": "2026-01-05T19:41:00.523Z"
     },
     "status": {
       "indicator": "none",
       "description": "All Systems Operational"
     },
-    "updated_at": "2026-01-05T19:01:04.330Z"
+    "updated_at": "2026-01-05T19:41:00.523Z"
   },
   "raw": {
     "page": {
@@ -129,7 +129,7 @@
       "name": "Epic Games Public",
       "url": "https://status.epicgames.com",
       "time_zone": "Etc/UTC",
-      "updated_at": "2026-01-05T19:01:04.330Z"
+      "updated_at": "2026-01-05T19:41:00.523Z"
     },
     "components": [
       {
