@@ -1,5 +1,4 @@
 import fs from "fs";
-import fetch from "node-fetch";
 
 const STATUS_URL = "https://status.epicgames.com/api/v2/summary.json";
 
@@ -85,7 +84,6 @@ async function updateStatus() {
   // ---------------- COMPONENT HISTORY ----------------
 
   const componentHistory = readJSON(COMPONENT_HISTORY_PATH, {});
-  const previousComponents = previousStatus?.affectedComponents || [];
 
   for (const component of components) {
     const name = component.name;
@@ -98,7 +96,6 @@ async function updateStatus() {
     const timeline = componentHistory[name];
     const lastEntry = timeline[0];
 
-    // Write only on state change
     if (!lastEntry || lastEntry.status !== currentState) {
       timeline.unshift({
         timestamp: now,
