@@ -1,5 +1,6 @@
 import fs from "fs";
 
+// Epic Games status API
 const STATUS_URL = "https://status.epicgames.com/api/v2/summary.json";
 
 const PUBLIC_DIR = "./public";
@@ -7,14 +8,14 @@ const STATUS_PATH = `${PUBLIC_DIR}/status.json`;
 const BADGE_PATH = `${PUBLIC_DIR}/status-badge.json`;
 const HISTORY_PATH = `${PUBLIC_DIR}/history.json`;
 
+// ----------------- Helper -----------------
 function normalizeStatus(indicator) {
-  switch (indicator) {
-    case "none": return "OPERATIONAL";
-    case "minor": return "DEGRADED";
-    case "major":
-    case "critical": return "OUTAGE";
-    default: return "UNKNOWN";
-  }
+  if (!indicator) return "UNKNOWN";
+  const val = indicator.toLowerCase();
+  if (val === "none" || val === "operational") return "OPERATIONAL";
+  if (val === "minor") return "DEGRADED";
+  if (val === "major" || val === "critical") return "OUTAGE";
+  return "UNKNOWN";
 }
 
 function loadHistory() {
@@ -31,6 +32,7 @@ function saveHistory(history) {
   fs.writeFileSync(HISTORY_PATH, JSON.stringify(history, null, 2));
 }
 
+// ----------------- Main -----------------
 async function fetchEpicStatus() {
   const res = await fetch(STATUS_URL, { cache: "no-store" });
   if (!res.ok) throw new Error(`Epic API error: ${res.status}`);
@@ -39,17 +41,17 @@ async function fetchEpicStatus() {
 
 async function main() {
   fs.mkdirSync(PUBLIC_DIR, { recursive: true });
-
   const now = new Date();
   const nowIso = now.toISOString();
   const history = loadHistory();
 
   try {
     const data = await fetchEpicStatus();
+
+    // ----- Global Status -----
     const currentStatus = normalizeStatus(data.status?.indicator);
     const message = data.status?.description ?? "Unknown";
 
-    // ----- Global status -----
     if (history.global.status !== currentStatus) {
       history.global.lastChanged = nowIso;
       history.global.status = currentStatus;
@@ -69,11 +71,13 @@ async function main() {
       const status = normalizeStatus(c.status);
       if (!history.components[c.name]) history.components[c.name] = { status: null, lastChanged: null, downSince: null };
 
+      // Track lastChanged
       if (history.components[c.name].status !== status) {
         history.components[c.name].lastChanged = nowIso;
         history.components[c.name].status = status;
       }
 
+      // Track downtime
       let compDowntime = 0;
       if (status !== "OPERATIONAL") {
         if (!history.components[c.name].downSince) history.components[c.name].downSince = nowIso;
@@ -84,14 +88,14 @@ async function main() {
 
       components[c.name] = {
         status,
-        rawStatus: c.status,
+        rawStatus: c.status ?? "unknown",
         updatedAt: c.updated_at ?? null,
         lastChanged: history.components[c.name].lastChanged,
         downtimeSeconds: compDowntime
       };
     }
 
-    // ----- Write JSON files -----
+    // ----- Write status.json -----
     const statusJson = {
       status: currentStatus,
       message,
@@ -101,6 +105,9 @@ async function main() {
       components
     };
 
+    fs.writeFileSync(STATUS_PATH, JSON.stringify(statusJson, null, 2));
+
+    // ----- Write badge JSON -----
     const badgeJson = {
       schemaVersion: 1,
       label: "Fortnite Status",
@@ -112,11 +119,13 @@ async function main() {
         : "lightgrey"
     };
 
-    fs.writeFileSync(STATUS_PATH, JSON.stringify(statusJson, null, 2));
     fs.writeFileSync(BADGE_PATH, JSON.stringify(badgeJson, null, 2));
+
+    // Save history
     saveHistory(history);
 
     console.log("✅ Status and history updated successfully");
+
   } catch (err) {
     fs.writeFileSync(STATUS_PATH, JSON.stringify({
       status: "ERROR",
@@ -124,6 +133,7 @@ async function main() {
       error: err.message,
       lastChecked: nowIso
     }, null, 2));
+
     console.error("❌ Update failed:", err.message);
     process.exitCode = 1;
   }
