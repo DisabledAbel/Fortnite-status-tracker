@@ -1,0 +1,209 @@
+{
+  "downSince": null,
+  "components": {
+    "Fortnite": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Website": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Login": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Website/Portal": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Drive": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "UE Marketplace": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Forums": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Matchmaking": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Playing": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Epic Account Services - Authentication": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Game Services": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "New Applications": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Pixel Streaming": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Download/Installation": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "LEGO Fortnite": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Creating": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Game Services - Authentication": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Achievements": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "1.0 - 2.0 Account Migration": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Purchasing/Refunding": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Voice Chat": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Fortnite Festival": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Publishing": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Parties, Friends, and Messaging": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Payment Process": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Anti-cheat": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Rocket Racing": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Epic Wallet": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Rocket League": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Stats and Leaderboards": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Store Browsing": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Creator Analytics": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Stats & Leaderboards": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Item Shop": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Custom Invites": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Developer Portal": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Rocket League Sideswipe": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Publishing Tools": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Fall Guys": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Friends": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Leaderboards": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Epic Games Store": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Game Details": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Epic Online Services": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Lobbies": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Sessions": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Fortnite Crew": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Support-A-Creator": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Peer-to-Peer (P2P)": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Unreal Engine": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Player Data Storage": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "UEFN": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Epic Games Website": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Twinmotion Cloud": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Presence": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Progression Snapshot": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "ArtStation": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Epic Games Store Ecommerce": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Fab": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "MetaHuman Creator": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Sanctions": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Social Overlay": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Quixel": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Stats": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "RealityScan": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Title Storage": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Sketchfab": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    },
+    "Voice": {
+      "downSince": "2026-01-15T00:50:10.814Z"
+    }
+  }
+}
