@@ -2,174 +2,142 @@ import fs from "fs";
 
 const STATUS_URL = "https://status.epicgames.com/api/v2/summary.json";
 
-const STATUS_PATH = "./public/status.json";
-const HISTORY_PATH = "./public/history.json";
-const COMPONENT_HISTORY_PATH = "./public/component-history.json";
+const PUBLIC_DIR = "./public";
+const STATUS_PATH = `${PUBLIC_DIR}/status.json`;
+const BADGE_PATH = `${PUBLIC_DIR}/status-badge.json`;
+const HISTORY_PATH = `${PUBLIC_DIR}/history.json`;
 
-const MAX_HISTORY_ENTRIES = 100;
-const MAX_COMPONENT_ENTRIES = 50;
-
-// ---------------- Helper Functions ----------------
-
-function readJSON(path, fallback) {
-  if (!fs.existsSync(path)) return fallback;
-  return JSON.parse(fs.readFileSync(path, "utf8"));
-}
-
-function normalizeStatus(raw) {
-  switch (raw) {
-    case "operational":
+function normalizeStatus(indicator) {
+  switch (indicator) {
+    case "none":
       return "OPERATIONAL";
-    case "degraded_performance":
+    case "minor":
       return "DEGRADED";
-    case "partial_outage":
-      return "PARTIAL_OUTAGE";
-    case "major_outage":
-      return "MAJOR_OUTAGE";
-    case "under_maintenance":
-      return "MAINTENANCE";
+    case "major":
+    case "critical":
+      return "OUTAGE";
     default:
       return "UNKNOWN";
   }
 }
 
-function isOutage(status) {
-  return status !== "OPERATIONAL";
+function loadHistory() {
+  if (!fs.existsSync(HISTORY_PATH)) {
+    return {};
+  }
+  return JSON.parse(fs.readFileSync(HISTORY_PATH, "utf8"));
 }
 
-// ---------------- Main Update Function ----------------
+function saveHistory(history) {
+  fs.writeFileSync(HISTORY_PATH, JSON.stringify(history, null, 2));
+}
 
-async function updateStatus() {
-  const res = await fetch(STATUS_URL);
-  if (!res.ok) throw new Error("Failed to fetch Epic status");
-
-  const data = await res.json();
-  const now = new Date().toISOString();
-
-  const incidents = data.incidents || [];
-  const components = data.components || [];
-
-  // Normalize component statuses
-  const affectedComponents = components
-    .filter(c => normalizeStatus(c.status) !== "OPERATIONAL")
-    .map(c => ({
-      name: c.name,
-      status: normalizeStatus(c.status)
-    }));
-
-  const allOperational = affectedComponents.length === 0 && incidents.length === 0;
-
-  const status = allOperational ? "OPERATIONAL" : "ISSUES";
-  const message = allOperational ? "All Systems Operational" : "Issues Detected";
-
-  // ---------------- Load Previous State ----------------
-
-  const previousStatus = readJSON(STATUS_PATH, null);
-  const history = readJSON(HISTORY_PATH, []);
-  const componentHistory = readJSON(COMPONENT_HISTORY_PATH, {});
-
-  // ---------------- Compute lastChanged ----------------
-
-  const lastChanged =
-    incidents
-      .map(i => i.updated_at)
-      .filter(Boolean)
-      .sort()
-      .at(-1)
-    ?? previousStatus?.lastChanged
-    ?? now;
-
-  // ---------------- Global History & Downtime Duration ----------------
-
-  let globalChanged =
-    !previousStatus ||
-    previousStatus.status !== status ||
-    JSON.stringify(previousStatus.affectedComponents) !==
-      JSON.stringify(affectedComponents);
-
-  if (history.length > 0) {
-    const lastGlobal = history[0];
-    // Close previous global outage if status changed
-    if (lastGlobal.endedAt === null && lastGlobal.status !== status) {
-      lastGlobal.endedAt = now;
-      lastGlobal.durationSeconds =
-        (new Date(lastGlobal.endedAt) - new Date(lastGlobal.startedAt)) / 1000;
-    }
+async function fetchEpicStatus() {
+  const res = await fetch(STATUS_URL, { cache: "no-store" });
+  if (!res.ok) {
+    throw new Error(`Epic API error: ${res.status}`);
   }
+  return res.json();
+}
 
-  if (globalChanged) {
-    history.unshift({
-      status,
+async function main() {
+  fs.mkdirSync(PUBLIC_DIR, { recursive: true });
+
+  const now = new Date();
+  const nowIso = now.toISOString();
+  const history = loadHistory();
+
+  try {
+    const data = await fetchEpicStatus();
+
+    const globalStatus = normalizeStatus(data.status?.indicator);
+    const message = data.status?.description ?? "Unknown";
+
+    // ---- Downtime tracking (global) ----
+    let downtimeSeconds = 0;
+
+    if (globalStatus !== "OPERATIONAL") {
+      if (!history.downSince) {
+        history.downSince = nowIso;
+      }
+      downtimeSeconds = Math.floor(
+        (now - new Date(history.downSince)) / 1000
+      );
+    } else {
+      history.downSince = null;
+    }
+
+    // ---- Component tracking ----
+    const components = {};
+
+    for (const c of data.components ?? []) {
+      const status = normalizeStatus(c.status);
+
+      if (!history.components) history.components = {};
+      if (!history.components[c.name]) {
+        history.components[c.name] = { downSince: null };
+      }
+
+      let componentDowntime = 0;
+
+      if (status !== "OPERATIONAL") {
+        if (!history.components[c.name].downSince) {
+          history.components[c.name].downSince = nowIso;
+        }
+        componentDowntime = Math.floor(
+          (now - new Date(history.components[c.name].downSince)) / 1000
+        );
+      } else {
+        history.components[c.name].downSince = null;
+      }
+
+      components[c.name] = {
+        status,
+        rawStatus: c.status,
+        updatedAt: c.updated_at ?? null,
+        downtimeSeconds: componentDowntime
+      };
+    }
+
+    const statusJson = {
+      status: globalStatus,
       message,
-      affectedComponents,
-      startedAt: now,
-      endedAt: null,
-      durationSeconds: null
-    });
-    history.splice(MAX_HISTORY_ENTRIES);
-    fs.writeFileSync(HISTORY_PATH, JSON.stringify(history, null, 2));
+      lastChecked: nowIso,
+      downtimeSeconds,
+      components
+    };
+
+    const badgeJson = {
+      schemaVersion: 1,
+      label: "Fortnite Status",
+      message: globalStatus,
+      color:
+        globalStatus === "OPERATIONAL"
+          ? "brightgreen"
+          : globalStatus === "DEGRADED"
+          ? "yellow"
+          : globalStatus === "OUTAGE"
+          ? "red"
+          : "lightgrey"
+    };
+
+    fs.writeFileSync(STATUS_PATH, JSON.stringify(statusJson, null, 2));
+    fs.writeFileSync(BADGE_PATH, JSON.stringify(badgeJson, null, 2));
+    saveHistory(history);
+
+    console.log("✅ Status + downtime updated");
+  } catch (err) {
+    const errorJson = {
+      status: "ERROR",
+      message: "Unable to fetch Epic Games status",
+      error: err.message,
+      lastChecked: nowIso
+    };
+
+    fs.writeFileSync(STATUS_PATH, JSON.stringify(errorJson, null, 2));
+    console.error("❌ Update failed:", err.message);
+    process.exitCode = 1;
   }
-
-  // ---------------- Component History & Outage Duration ----------------
-
-  for (const component of components) {
-    const name = component.name;
-    const currentState = normalizeStatus(component.status);
-
-    if (!componentHistory[name]) {
-      componentHistory[name] = [];
-    }
-
-    const timeline = componentHistory[name];
-    const lastEntry = timeline[0];
-
-    // Close previous outage if state changed
-    if (lastEntry && lastEntry.endedAt === null && lastEntry.status !== currentState) {
-      lastEntry.endedAt = now;
-      lastEntry.durationSeconds =
-        (new Date(lastEntry.endedAt) - new Date(lastEntry.startedAt)) / 1000;
-    }
-
-    // Record new entry if changed
-    if (!lastEntry || lastEntry.status !== currentState) {
-      timeline.unshift({
-        status: currentState,
-        startedAt: now,
-        endedAt: null,
-        durationSeconds: null
-      });
-
-      timeline.splice(MAX_COMPONENT_ENTRIES);
-    }
-  }
-
-  fs.writeFileSync(COMPONENT_HISTORY_PATH, JSON.stringify(componentHistory, null, 2));
-
-  // ---------------- Write Current Status ----------------
-
-  const currentStatus = {
-    status,
-    message,
-    affectedComponents,
-    incidents,
-    lastChecked: now,
-    lastChanged,
-    normalized: true
-  };
-
-  fs.mkdirSync("./public", { recursive: true });
-  fs.writeFileSync(STATUS_PATH, JSON.stringify(currentStatus, null, 2));
-
-  console.log(
-    globalChanged
-      ? "Global + component history updated"
-      : "Component history checked (no global change)"
-  );
 }
 
-// ---------------- Run ----------------
-
-updateStatus().catch(err => {
-  console.error(err);
-  process.exit(1);
-});
+main();
