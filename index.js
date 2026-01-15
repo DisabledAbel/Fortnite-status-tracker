@@ -9,30 +9,22 @@ const HISTORY_PATH = `${PUBLIC_DIR}/history.json`;
 
 function normalizeStatus(indicator) {
   switch (indicator) {
-    case "none":
-      return "OPERATIONAL";
-    case "minor":
-      return "DEGRADED";
+    case "none": return "OPERATIONAL";
+    case "minor": return "DEGRADED";
     case "major":
-    case "critical":
-      return "OUTAGE";
-    default:
-      return "UNKNOWN";
+    case "critical": return "OUTAGE";
+    default: return "UNKNOWN";
   }
 }
 
 function loadHistory() {
   if (!fs.existsSync(HISTORY_PATH)) {
-    return {
-      global: {
-        status: null,
-        lastChanged: null,
-        downSince: null
-      },
-      components: {}
-    };
+    return { global: { status: null, lastChanged: null, downSince: null }, components: {} };
   }
-  return JSON.parse(fs.readFileSync(HISTORY_PATH, "utf8"));
+  const h = JSON.parse(fs.readFileSync(HISTORY_PATH, "utf8"));
+  h.global = h.global || { status: null, lastChanged: null, downSince: null };
+  h.components = h.components || {};
+  return h;
 }
 
 function saveHistory(history) {
@@ -41,9 +33,7 @@ function saveHistory(history) {
 
 async function fetchEpicStatus() {
   const res = await fetch(STATUS_URL, { cache: "no-store" });
-  if (!res.ok) {
-    throw new Error(`Epic API error: ${res.status}`);
-  }
+  if (!res.ok) throw new Error(`Epic API error: ${res.status}`);
   return res.json();
 }
 
@@ -56,63 +46,38 @@ async function main() {
 
   try {
     const data = await fetchEpicStatus();
-
     const currentStatus = normalizeStatus(data.status?.indicator);
     const message = data.status?.description ?? "Unknown";
 
-    // ---------- GLOBAL STATUS TRACKING ----------
-    let lastChanged = history.global.lastChanged;
-
+    // ----- Global status -----
     if (history.global.status !== currentStatus) {
-      lastChanged = nowIso;
-      history.global.status = currentStatus;
       history.global.lastChanged = nowIso;
+      history.global.status = currentStatus;
     }
 
     let downtimeSeconds = 0;
-
     if (currentStatus !== "OPERATIONAL") {
-      if (!history.global.downSince) {
-        history.global.downSince = nowIso;
-      }
-      downtimeSeconds = Math.floor(
-        (now - new Date(history.global.downSince)) / 1000
-      );
+      if (!history.global.downSince) history.global.downSince = nowIso;
+      downtimeSeconds = Math.floor((now - new Date(history.global.downSince)) / 1000);
     } else {
       history.global.downSince = null;
     }
 
-    // ---------- COMPONENT TRACKING ----------
+    // ----- Components -----
     const components = {};
-
     for (const c of data.components ?? []) {
       const status = normalizeStatus(c.status);
-
-      if (!history.components[c.name]) {
-        history.components[c.name] = {
-          status: null,
-          lastChanged: null,
-          downSince: null
-        };
-      }
-
-      let componentLastChanged = history.components[c.name].lastChanged;
+      if (!history.components[c.name]) history.components[c.name] = { status: null, lastChanged: null, downSince: null };
 
       if (history.components[c.name].status !== status) {
-        componentLastChanged = nowIso;
-        history.components[c.name].status = status;
         history.components[c.name].lastChanged = nowIso;
+        history.components[c.name].status = status;
       }
 
-      let componentDowntime = 0;
-
+      let compDowntime = 0;
       if (status !== "OPERATIONAL") {
-        if (!history.components[c.name].downSince) {
-          history.components[c.name].downSince = nowIso;
-        }
-        componentDowntime = Math.floor(
-          (now - new Date(history.components[c.name].downSince)) / 1000
-        );
+        if (!history.components[c.name].downSince) history.components[c.name].downSince = nowIso;
+        compDowntime = Math.floor((now - new Date(history.components[c.name].downSince)) / 1000);
       } else {
         history.components[c.name].downSince = null;
       }
@@ -121,16 +86,17 @@ async function main() {
         status,
         rawStatus: c.status,
         updatedAt: c.updated_at ?? null,
-        lastChanged: componentLastChanged,
-        downtimeSeconds: componentDowntime
+        lastChanged: history.components[c.name].lastChanged,
+        downtimeSeconds: compDowntime
       };
     }
 
+    // ----- Write JSON files -----
     const statusJson = {
       status: currentStatus,
       message,
       lastChecked: nowIso,
-      lastChanged,
+      lastChanged: history.global.lastChanged,
       downtimeSeconds,
       components
     };
@@ -140,29 +106,24 @@ async function main() {
       label: "Fortnite Status",
       message: currentStatus,
       color:
-        currentStatus === "OPERATIONAL"
-          ? "brightgreen"
-          : currentStatus === "DEGRADED"
-          ? "yellow"
-          : currentStatus === "OUTAGE"
-          ? "red"
-          : "lightgrey"
+        currentStatus === "OPERATIONAL" ? "brightgreen"
+        : currentStatus === "DEGRADED" ? "yellow"
+        : currentStatus === "OUTAGE" ? "red"
+        : "lightgrey"
     };
 
     fs.writeFileSync(STATUS_PATH, JSON.stringify(statusJson, null, 2));
     fs.writeFileSync(BADGE_PATH, JSON.stringify(badgeJson, null, 2));
     saveHistory(history);
 
-    console.log("✅ Status, history, and downtime updated");
+    console.log("✅ Status and history updated successfully");
   } catch (err) {
-    const errorJson = {
+    fs.writeFileSync(STATUS_PATH, JSON.stringify({
       status: "ERROR",
       message: "Unable to fetch Epic Games status",
       error: err.message,
       lastChecked: nowIso
-    };
-
-    fs.writeFileSync(STATUS_PATH, JSON.stringify(errorJson, null, 2));
+    }, null, 2));
     console.error("❌ Update failed:", err.message);
     process.exitCode = 1;
   }
