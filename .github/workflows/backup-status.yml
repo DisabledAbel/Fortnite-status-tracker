@@ -1,45 +1,67 @@
-name: Backup Fortnite Status JSON
+name: Update Fortnite Status & Backup
 
 on:
-  workflow_run:
-    workflows: ["Fortnite Status API Auto Update"]  # Name of your main auto-update workflow
-    types:
-      - completed
+  schedule:
+    - cron: "*/5 * * * *" # Every 5 minutes
+  workflow_dispatch:
 
 jobs:
-  backup:
+  update-and-backup:
     runs-on: ubuntu-latest
     steps:
-      # 1. Checkout current repo (to access JSON files)
-      - name: Checkout repository
+      # 1. Checkout main repo
+      - name: Checkout main repo
         uses: actions/checkout@v4
 
-      # 2. Setup Git (needed for backup repo push)
+      # 2. Setup Node
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # 3. Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # 4. Run the status updater
+      - name: Run status updater
+        id: updater
+        run: |
+          node index.js
+
+      # 5. Stop workflow if updater failed
+      - name: Verify updater success
+        if: failure()
+        run: |
+          echo "Updater failed! Skipping backup."
+          exit 1
+
+      # 6. Setup Git for backup repo
       - name: Setup Git
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-      # 3. Clone backup repository
-      - name: Clone backup repo
+      # 7. Clone backup repository using GITHUB_TOKEN
+      - name: Clone backup repository
         run: |
-          git clone https://github.com/YourUsername/fortnite-status-backup.git backup-repo
+          git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/YourUsername/fortnite-status-backup.git backup-repo
 
-      # 4. Copy JSON files with timestamp
-      - name: Copy JSON files with timestamp
+      # 8. Copy updated JSON files with timestamp
+      - name: Copy JSON files
         run: |
           TIMESTAMP=$(date +'%Y%m%d_%H%M%S')
           mkdir -p backup-repo
-          for file in public/status.json public/history.json public/status-badge.json; do
+          for file in public/status.json public/status-badge.json public/history.json; do
             [ -f "$file" ] || continue
             BASENAME=$(basename "$file" .json)
             cp "$file" "backup-repo/${BASENAME}_$TIMESTAMP.json"
           done
 
-      # 5. Clean old backups (keep last 30 per file)
+      # 9. Clean old backups (keep last 30 per file)
       - name: Clean old backups
         run: |
-          for BASENAME in status history status-badge; do
+          for BASENAME in status status-badge history; do
             FILES=(backup-repo/${BASENAME}_*.json)
             COUNT=${#FILES[@]}
             if [ "$COUNT" -gt 30 ]; then
@@ -48,7 +70,7 @@ jobs:
             fi
           done
 
-      # 6. Commit and push
+      # 10. Commit & push to backup repo
       - name: Commit and push backups
         run: |
           cd backup-repo
