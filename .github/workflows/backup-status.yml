@@ -1,0 +1,57 @@
+name: Backup Fortnite Status JSON
+
+on:
+  workflow_run:
+    workflows: ["Fortnite Status API Auto Update"]  # Name of your main auto-update workflow
+    types:
+      - completed
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Checkout current repo (to access JSON files)
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Setup Git (needed for backup repo push)
+      - name: Setup Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      # 3. Clone backup repository
+      - name: Clone backup repo
+        run: |
+          git clone https://github.com/YourUsername/fortnite-status-backup.git backup-repo
+
+      # 4. Copy JSON files with timestamp
+      - name: Copy JSON files with timestamp
+        run: |
+          TIMESTAMP=$(date +'%Y%m%d_%H%M%S')
+          mkdir -p backup-repo
+          for file in public/status.json public/history.json public/status-badge.json; do
+            [ -f "$file" ] || continue
+            BASENAME=$(basename "$file" .json)
+            cp "$file" "backup-repo/${BASENAME}_$TIMESTAMP.json"
+          done
+
+      # 5. Clean old backups (keep last 30 per file)
+      - name: Clean old backups
+        run: |
+          for BASENAME in status history status-badge; do
+            FILES=(backup-repo/${BASENAME}_*.json)
+            COUNT=${#FILES[@]}
+            if [ "$COUNT" -gt 30 ]; then
+              TO_DELETE=$(($COUNT - 30))
+              ls -1tr backup-repo/${BASENAME}_*.json | head -n $TO_DELETE | xargs rm -f
+            fi
+          done
+
+      # 6. Commit and push
+      - name: Commit and push backups
+        run: |
+          cd backup-repo
+          git add .
+          git diff --cached --quiet || git commit -m "Backup: $TIMESTAMP"
+          git push origin main
