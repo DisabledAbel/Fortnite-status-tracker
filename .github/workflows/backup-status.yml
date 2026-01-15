@@ -1,4 +1,4 @@
-name: Update Fortnite Status & Backup
+name: Update Fortnite Status
 
 on:
   schedule:
@@ -6,11 +6,12 @@ on:
   workflow_dispatch:
 
 jobs:
-  update-and-backup:
+  update-status:
     runs-on: ubuntu-latest
+
     steps:
       # 1. Checkout main repo
-      - name: Checkout main repo
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       # 2. Setup Node
@@ -23,57 +24,29 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # 4. Run the status updater
+      # 4. Run updater
       - name: Run status updater
         id: updater
         run: |
           node index.js
 
-      # 5. Stop workflow if updater failed
+      # 5. Verify success
       - name: Verify updater success
         if: failure()
         run: |
-          echo "Updater failed! Skipping backup."
+          echo "Updater failed! Stopping workflow."
           exit 1
 
-      # 6. Setup Git for backup repo
-      - name: Setup Git
+      # 6. Commit updated JSON files
+      - name: Commit updated JSON
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/status.json public/status-badge.json public/history.json
+          git diff --cached --quiet || git commit -m "Update Fortnite status"
 
-      # 7. Clone backup repository using GITHUB_TOKEN
-      - name: Clone backup repository
-        run: |
-          git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/YourUsername/fortnite-status-backup.git backup-repo
-
-      # 8. Copy updated JSON files with timestamp
-      - name: Copy JSON files
-        run: |
-          TIMESTAMP=$(date +'%Y%m%d_%H%M%S')
-          mkdir -p backup-repo
-          for file in public/status.json public/status-badge.json public/history.json; do
-            [ -f "$file" ] || continue
-            BASENAME=$(basename "$file" .json)
-            cp "$file" "backup-repo/${BASENAME}_$TIMESTAMP.json"
-          done
-
-      # 9. Clean old backups (keep last 30 per file)
-      - name: Clean old backups
-        run: |
-          for BASENAME in status status-badge history; do
-            FILES=(backup-repo/${BASENAME}_*.json)
-            COUNT=${#FILES[@]}
-            if [ "$COUNT" -gt 30 ]; then
-              TO_DELETE=$(($COUNT - 30))
-              ls -1tr backup-repo/${BASENAME}_*.json | head -n $TO_DELETE | xargs rm -f
-            fi
-          done
-
-      # 10. Commit & push to backup repo
-      - name: Commit and push backups
-        run: |
-          cd backup-repo
-          git add .
-          git diff --cached --quiet || git commit -m "Backup: $TIMESTAMP"
-          git push origin main
+      # 7. Push changes
+      - name: Push changes
+        run: git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
