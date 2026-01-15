@@ -2,435 +2,89 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fortnite Server Status</title>
+  <title>Fortnite Status Tracker</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #0a0e27 0%, #1a1a2e 50%, #16213e 100%);
-      color: #fff;
-      min-height: 100vh;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .container {
-      max-width: 900px;
-      width: 100%;
-      margin: 0 auto;
-    }
-
-    header {
-      text-align: center;
-      margin-bottom: 40px;
-      animation: fadeInDown 0.8s ease;
-    }
-
-    h1 {
-      font-size: 3em;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 10px;
-      text-shadow: 0 0 30px rgba(102, 126, 234, 0.5);
-    }
-
-    .subtitle {
-      color: #a0aec0;
-      font-size: 1.1em;
-      margin-top: 10px;
-    }
-
-    .badge-container {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 30px;
-      animation: fadeIn 1s ease;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      padding: 16px 32px;
-      border-radius: 50px;
-      font-weight: bold;
-      font-size: 1.3em;
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(10px);
-      border: 2px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .badge:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-    }
-
-    .status-indicator {
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
-    }
-
-    .status-card {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(10px);
-      border-radius: 20px;
-      padding: 30px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-      animation: fadeInUp 0.8s ease;
-    }
-
-    .overall-status {
-      text-align: center;
-      padding: 20px;
-      margin-bottom: 30px;
-      background: rgba(255, 255, 255, 0.03);
-      border-radius: 15px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .overall-status strong {
-      display: block;
-      font-size: 1.1em;
-      color: #a0aec0;
-      margin-bottom: 10px;
-    }
-
-    .overall-status-value {
-      font-size: 1.5em;
-      font-weight: bold;
-    }
-
-    h3 {
-      font-size: 1.5em;
-      margin-bottom: 20px;
-      color: #e2e8f0;
-      border-bottom: 2px solid rgba(102, 126, 234, 0.3);
-      padding-bottom: 10px;
-    }
-
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 15px;
-      margin-bottom: 30px;
-    }
-
-    .service-item {
-      background: rgba(255, 255, 255, 0.03);
-      padding: 18px;
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .service-item:hover {
-      transform: translateX(5px);
-      background: rgba(255, 255, 255, 0.05);
-      border-color: rgba(102, 126, 234, 0.3);
-    }
-
-    .service-item::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 4px;
-      background: currentColor;
-    }
-
-    .service-name {
-      font-weight: 600;
-      font-size: 1.05em;
-    }
-
-    .service-status {
-      font-size: 0.9em;
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-weight: 600;
-      background: rgba(0, 0, 0, 0.3);
-    }
-
-    .online {
-      color: #48bb78;
-    }
-
-    .online .service-status {
-      background: rgba(72, 187, 120, 0.2);
-      color: #68d391;
-    }
-
-    .degraded {
-      color: #ecc94b;
-    }
-
-    .degraded .service-status {
-      background: rgba(236, 201, 75, 0.2);
-      color: #f6e05e;
-    }
-
-    .offline {
-      color: #f56565;
-    }
-
-    .offline .service-status {
-      background: rgba(245, 101, 101, 0.2);
-      color: #fc8181;
-    }
-
-    .footer-info {
-      margin-top: 20px;
-      padding-top: 20px;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 15px;
-      color: #a0aec0;
-      font-size: 0.95em;
-    }
-
-    .footer-info a {
-      color: #667eea;
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
-
-    .footer-info a:hover {
-      color: #764ba2;
-    }
-
-    .loading {
-      text-align: center;
-      padding: 40px;
-      font-size: 1.2em;
-      color: #a0aec0;
-    }
-
-    .error-message {
-      background: rgba(245, 101, 101, 0.1);
-      border: 1px solid rgba(245, 101, 101, 0.3);
-      color: #fc8181;
-      padding: 20px;
-      border-radius: 12px;
-      text-align: center;
-    }
-
-    .spinner {
-      border: 3px solid rgba(255, 255, 255, 0.1);
-      border-top: 3px solid #667eea;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      animation: spin 1s linear infinite;
-      margin: 20px auto;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    @keyframes fadeInDown {
-      from {
-        opacity: 0;
-        transform: translateY(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @media (max-width: 768px) {
-      h1 {
-        font-size: 2em;
-      }
-
-      .badge {
-        font-size: 1.1em;
-        padding: 12px 24px;
-      }
-
-      .status-card {
-        padding: 20px;
-      }
-
-      .services-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .footer-info {
-        flex-direction: column;
-        text-align: center;
-      }
-    }
+    body { font-family: sans-serif; padding: 20px; }
+    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { background-color: #f0f0f0; }
+    tr:nth-child(even) { background-color: #fafafa; }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>⚡ Fortnite Server Status</h1>
-      <p class="subtitle">Real-time status monitoring</p>
-    </header>
+  <h1>Fortnite Status Tracker</h1>
 
-    <div class="badge-container">
-      <div id="badge" class="badge">
-        <div class="spinner"></div>
-        Loading...
-      </div>
-    </div>
+  <div>Status: <span id="status">Loading…</span></div>
+  <div>Last Checked: <span id="lastChecked">Loading…</span></div>
+  <div>Last Changed: <span id="lastChanged">Unknown</span></div>
+  <div>Downtime: <span id="downtime">0m 0s</span></div>
 
-    <div class="status-card">
-      <div id="status" class="loading">
-        <div class="spinner"></div>
-        <p>Fetching server status...</p>
-      </div>
-    </div>
-  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Component</th>
+        <th>Status</th>
+        <th>Last Changed</th>
+        <th>Downtime</th>
+      </tr>
+    </thead>
+    <tbody id="componentsTableBody"></tbody>
+  </table>
 
   <script>
-    const STATUS_JSON = "status.json";
-    const BADGE_JSON = "status-badge.json";
-
-    async function fetchStatus() {
+    async function updateStatus() {
       try {
-        const badgeRes = await fetch(BADGE_JSON);
-        const badgeData = await badgeRes.json();
-        const badgeEl = document.getElementById("badge");
-        
-        let statusColor = badgeData.color;
-        let statusClass = 'online';
-        
-        if (statusColor.includes('yellow') || statusColor.includes('ffff00')) {
-          statusClass = 'degraded';
-        } else if (statusColor.includes('red') || statusColor.includes('ff0000')) {
-          statusClass = 'offline';
-        }
-        
-        badgeEl.innerHTML = `
-          <div class="status-indicator ${statusClass}" style="background-color: ${badgeData.color};"></div>
-          ${badgeData.message}
-        `;
-        badgeEl.style.borderColor = badgeData.color + '40';
+        const res = await fetch("/status.json", { cache: "no-store" });
+        if (!res.ok) throw new Error("Network error");
+        const data = await res.json();
 
-        const statusRes = await fetch(STATUS_JSON);
-        const statusData = await statusRes.json();
-        
-        let overallClass = 'online';
-        const overallLower = statusData.overall_status.toLowerCase();
-        if (overallLower.includes('degraded')) {
-          overallClass = 'degraded';
-        } else if (overallLower.includes('major') || overallLower.includes('down')) {
-          overallClass = 'offline';
+        // Global status
+        document.getElementById("status").textContent = data.status || "Unknown";
+        document.getElementById("lastChecked").textContent = data.lastChecked
+          ? new Date(data.lastChecked).toLocaleString()
+          : "Unknown";
+        document.getElementById("lastChanged").textContent = data.lastChanged
+          ? new Date(data.lastChanged).toLocaleString()
+          : "Unknown";
+
+        // Downtime
+        if (data.downtimeSeconds) {
+          const mins = Math.floor(data.downtimeSeconds / 60);
+          const secs = data.downtimeSeconds % 60;
+          document.getElementById("downtime").textContent = `${mins}m ${secs}s`;
+        } else {
+          document.getElementById("downtime").textContent = "0m 0s";
         }
 
-        let html = `
-          <div class="overall-status">
-            <strong>Overall Status</strong>
-            <div class="overall-status-value ${overallClass}">${statusData.overall_status}</div>
-          </div>
-          <h3>Services</h3>
-          <div class="services-grid">
-        `;
-
-        for (const [service, state] of Object.entries(statusData.services)) {
-          let cls = "online";
-          const s = state.toLowerCase();
-          if (s.includes("degraded") || s.includes("partial")) {
-            cls = "degraded";
-          } else if (s.includes("major") || s.includes("down") || s.includes("outage")) {
-            cls = "offline";
+        // Per-component table
+        const tableBody = document.getElementById("componentsTableBody");
+        tableBody.innerHTML = "";
+        if (data.components) {
+          for (const [name, comp] of Object.entries(data.components)) {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+              <td>${name}</td>
+              <td>${comp.status || "Unknown"}</td>
+              <td>${comp.lastChanged ? new Date(comp.lastChanged).toLocaleString() : "Unknown"}</td>
+              <td>${comp.downtimeSeconds || 0}s</td>
+            `;
+            tableBody.appendChild(row);
           }
-          
-          html += `
-            <div class="service-item ${cls}">
-              <span class="service-name">${service}</span>
-              <span class="service-status">${state}</span>
-            </div>
-          `;
         }
 
-        const lastChecked = new Date(statusData.last_checked);
-        const timeString = lastChecked.toLocaleString('en-US', {
-          month: 'short',
-          day: 'numeric',
-          year: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit',
-          timeZoneName: 'short'
-        });
-
-        html += `
-          </div>
-          <div class="footer-info">
-            <div>Last updated: ${timeString}</div>
-            <div>Source: <a href="https://status.epicgames.com" target="_blank">Epic Games Status</a></div>
-          </div>
-        `;
-
-        document.getElementById("status").innerHTML = html;
       } catch (err) {
-        document.getElementById("status").innerHTML = `
-          <div class="error-message">
-            <strong>⚠️ Error Loading Status</strong>
-            <p>Unable to fetch server status. Please try again later.</p>
-          </div>
-        `;
-        const badgeEl = document.getElementById("badge");
-        badgeEl.innerHTML = `
-          <div class="status-indicator offline" style="background-color: #ff0000;"></div>
-          ERROR
-        `;
-        badgeEl.style.borderColor = '#ff000040';
-        console.error(err);
+        console.error("Failed to load status:", err);
+        document.getElementById("status").textContent = "Error";
+        document.getElementById("lastChanged").textContent = "Unknown";
+        document.getElementById("lastChecked").textContent = "Unknown";
+        document.getElementById("downtime").textContent = "0m 0s";
+        document.getElementById("componentsTableBody").innerHTML = "";
       }
     }
 
-    fetchStatus();
-    setInterval(fetchStatus, 5 * 60 * 1000);
+    // Initial load + auto-update every 60 seconds
+    updateStatus();
+    setInterval(updateStatus, 60_000);
   </script>
 </body>
 </html>
