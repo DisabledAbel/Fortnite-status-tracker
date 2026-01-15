@@ -2,208 +2,349 @@
   "downSince": null,
   "components": {
     "Fortnite": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Website": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Login": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Website/Portal": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Drive": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "UE Marketplace": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Forums": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Matchmaking": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Playing": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Epic Account Services - Authentication": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Game Services": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "New Applications": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Pixel Streaming": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Download/Installation": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "LEGO Fortnite": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Creating": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Game Services - Authentication": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Achievements": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "1.0 - 2.0 Account Migration": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Purchasing/Refunding": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Voice Chat": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Fortnite Festival": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Publishing": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Parties, Friends, and Messaging": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Payment Process": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Anti-cheat": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Rocket Racing": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Epic Wallet": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Rocket League": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Stats and Leaderboards": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Store Browsing": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Creator Analytics": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Stats & Leaderboards": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Item Shop": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Custom Invites": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Developer Portal": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Rocket League Sideswipe": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Publishing Tools": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Fall Guys": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Friends": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Leaderboards": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Epic Games Store": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Game Details": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Epic Online Services": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Lobbies": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Sessions": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Fortnite Crew": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Support-A-Creator": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Peer-to-Peer (P2P)": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Unreal Engine": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Player Data Storage": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "UEFN": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Epic Games Website": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Twinmotion Cloud": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Presence": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Progression Snapshot": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "ArtStation": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Epic Games Store Ecommerce": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Fab": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "MetaHuman Creator": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Sanctions": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Social Overlay": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Quixel": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Stats": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "RealityScan": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Title Storage": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Sketchfab": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     },
     "Voice": {
-      "downSince": "2026-01-15T00:50:10.814Z"
+      "downSince": null,
+      "lastChanged": "2026-01-15T04:33:26.884Z",
+      "status": "OPERATIONAL"
     }
+  },
+  "global": {
+    "status": "OPERATIONAL",
+    "lastChanged": "2026-01-15T04:33:26.884Z",
+    "downSince": null
   }
 }
