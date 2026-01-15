@@ -1,1 +1,416 @@
-
+{
+  "status": "OPERATIONAL",
+  "message": "All Systems Operational",
+  "lastChecked": "2026-01-15T00:44:17.834Z",
+  "downtimeSeconds": 0,
+  "components": {
+    "Fortnite": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2019-11-15T19:06:39.863Z",
+      "downtimeSeconds": 0
+    },
+    "Website": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2022-06-23T05:57:45.883Z",
+      "downtimeSeconds": 0
+    },
+    "Login": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2026-01-13T19:45:07.954Z",
+      "downtimeSeconds": 0
+    },
+    "Website/Portal": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2024-11-19T23:03:49.479Z",
+      "downtimeSeconds": 0
+    },
+    "Drive": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2024-10-21T18:12:20.509Z",
+      "downtimeSeconds": 0
+    },
+    "UE Marketplace": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2022-12-08T18:44:59.804Z",
+      "downtimeSeconds": 0
+    },
+    "Forums": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2025-10-29T18:18:06.011Z",
+      "downtimeSeconds": 0
+    },
+    "Matchmaking": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2026-01-13T19:45:07.975Z",
+      "downtimeSeconds": 0
+    },
+    "Playing": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2025-10-20T12:04:45.462Z",
+      "downtimeSeconds": 0
+    },
+    "Epic Account Services - Authentication": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2025-12-30T14:48:04.213Z",
+      "downtimeSeconds": 0
+    },
+    "Game Services": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2023-12-03T01:01:51.199Z",
+      "downtimeSeconds": 0
+    },
+    "New Applications": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2021-01-28T02:24:25.797Z",
+      "downtimeSeconds": 0
+    },
+    "Pixel Streaming": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2024-10-21T18:12:20.556Z",
+      "downtimeSeconds": 0
+    },
+    "Download/Installation": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2024-11-13T20:35:30.660Z",
+      "downtimeSeconds": 0
+    },
+    "LEGO Fortnite": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2024-02-16T19:44:04.839Z",
+      "downtimeSeconds": 0
+    },
+    "Creating": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2025-10-20T12:04:45.514Z",
+      "downtimeSeconds": 0
+    },
+    "Game Services - Authentication": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2025-12-30T14:48:04.235Z",
+      "downtimeSeconds": 0
+    },
+    "Achievements": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2025-05-09T19:28:43.412Z",
+      "downtimeSeconds": 0
+    },
+    "1.0 - 2.0 Account Migration": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2021-01-28T02:24:54.207Z",
+      "downtimeSeconds": 0
+    },
+    "Purchasing/Refunding": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2026-01-01T17:50:50.821Z",
+      "downtimeSeconds": 0
+    },
+    "Voice Chat": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2025-11-19T05:30:21.508Z",
+      "downtimeSeconds": 0
+    },
+    "Fortnite Festival": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2024-02-16T19:44:18.761Z",
+      "downtimeSeconds": 0
+    },
+    "Publishing": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2025-10-20T12:04:45.545Z",
+      "downtimeSeconds": 0
+    },
+    "Parties, Friends, and Messaging": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2025-10-10T01:22:46.623Z",
+      "downtimeSeconds": 0
+    },
+    "Payment Process": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2021-01-28T02:25:27.012Z",
+      "downtimeSeconds": 0
+    },
+    "Anti-cheat": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2025-10-20T10:55:18.434Z",
+      "downtimeSeconds": 0
+    },
+    "Rocket Racing": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2025-11-20T19:58:46.311Z",
+      "downtimeSeconds": 0
+    },
+    "Epic Wallet": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2025-05-09T19:28:43.393Z",
+      "downtimeSeconds": 0
+    },
+    "Rocket League": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2025-11-20T19:58:46.324Z",
+      "downtimeSeconds": 0
+    },
+    "Stats and Leaderboards": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2026-01-09T11:00:21.382Z",
+      "downtimeSeconds": 0
+    },
+    "Store Browsing": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2026-01-01T17:51:15.418Z",
+      "downtimeSeconds": 0
+    },
+    "Creator Analytics": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2021-10-12T20:43:47.139Z",
+      "downtimeSeconds": 0
+    },
+    "Stats & Leaderboards": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2025-10-10T01:22:46.593Z",
+      "downtimeSeconds": 0
+    },
+    "Item Shop": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2026-01-09T11:00:21.407Z",
+      "downtimeSeconds": 0
+    },
+    "Custom Invites": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2025-10-20T10:55:18.448Z",
+      "downtimeSeconds": 0
+    },
+    "Developer Portal": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2026-01-12T10:00:21.241Z",
+      "downtimeSeconds": 0
+    },
+    "Rocket League Sideswipe": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2025-11-20T19:58:39.536Z",
+      "downtimeSeconds": 0
+    },
+    "Publishing Tools": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2025-12-15T06:09:19.227Z",
+      "downtimeSeconds": 0
+    },
+    "Fall Guys": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2025-11-20T19:58:39.548Z",
+      "downtimeSeconds": 0
+    },
+    "Friends": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2025-10-20T10:55:18.476Z",
+      "downtimeSeconds": 0
+    },
+    "Leaderboards": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2025-10-20T10:55:18.490Z",
+      "downtimeSeconds": 0
+    },
+    "Epic Games Store": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2024-02-16T19:44:37.605Z",
+      "downtimeSeconds": 0
+    },
+    "Game Details": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2026-01-01T17:51:15.432Z",
+      "downtimeSeconds": 0
+    },
+    "Epic Online Services": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2024-02-16T19:44:37.619Z",
+      "downtimeSeconds": 0
+    },
+    "Lobbies": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2025-12-09T08:00:21.394Z",
+      "downtimeSeconds": 0
+    },
+    "Sessions": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2025-12-09T08:00:21.425Z",
+      "downtimeSeconds": 0
+    },
+    "Fortnite Crew": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2026-01-09T11:00:21.431Z",
+      "downtimeSeconds": 0
+    },
+    "Support-A-Creator": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2024-02-16T19:42:07.719Z",
+      "downtimeSeconds": 0
+    },
+    "Peer-to-Peer (P2P)": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2025-12-05T13:07:39.196Z",
+      "downtimeSeconds": 0
+    },
+    "Unreal Engine": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2024-02-16T19:42:07.730Z",
+      "downtimeSeconds": 0
+    },
+    "Player Data Storage": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2025-10-20T10:55:18.547Z",
+      "downtimeSeconds": 0
+    },
+    "UEFN": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2024-02-16T19:42:07.740Z",
+      "downtimeSeconds": 0
+    },
+    "Epic Games Website": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2024-02-16T19:42:07.752Z",
+      "downtimeSeconds": 0
+    },
+    "Twinmotion Cloud": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2024-02-16T19:42:02.527Z",
+      "downtimeSeconds": 0
+    },
+    "Presence": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2025-10-20T10:55:18.575Z",
+      "downtimeSeconds": 0
+    },
+    "Progression Snapshot": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2025-10-20T10:55:18.588Z",
+      "downtimeSeconds": 0
+    },
+    "ArtStation": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2025-11-26T20:38:40.141Z",
+      "downtimeSeconds": 0
+    },
+    "Epic Games Store Ecommerce": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2025-10-20T10:55:18.602Z",
+      "downtimeSeconds": 0
+    },
+    "Fab": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2025-12-30T15:30:15.475Z",
+      "downtimeSeconds": 0
+    },
+    "MetaHuman Creator": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2025-11-20T19:50:11.695Z",
+      "downtimeSeconds": 0
+    },
+    "Sanctions": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2025-10-20T10:55:18.619Z",
+      "downtimeSeconds": 0
+    },
+    "Social Overlay": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2025-10-20T10:55:18.633Z",
+      "downtimeSeconds": 0
+    },
+    "Quixel": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2025-11-26T20:38:40.173Z",
+      "downtimeSeconds": 0
+    },
+    "Stats": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2025-10-20T10:55:18.647Z",
+      "downtimeSeconds": 0
+    },
+    "RealityScan": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2025-11-20T19:50:21.268Z",
+      "downtimeSeconds": 0
+    },
+    "Title Storage": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2025-10-20T10:55:18.662Z",
+      "downtimeSeconds": 0
+    },
+    "Sketchfab": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2025-11-26T20:38:40.190Z",
+      "downtimeSeconds": 0
+    },
+    "Voice": {
+      "status": "UNKNOWN",
+      "rawStatus": "operational",
+      "updatedAt": "2025-10-20T10:55:18.687Z",
+      "downtimeSeconds": 0
+    }
+  }
+}
