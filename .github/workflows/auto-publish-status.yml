@@ -1,9 +1,8 @@
 name: Update Fortnite Status
 
-# Run every 5 minutes; adjust as needed
 on:
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "*/5 * * * *" # every 5 minutes
   workflow_dispatch:
 
 jobs:
@@ -11,38 +10,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout your repo
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2. Setup Node.js 20
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      # 3. Clean old data files (optional but prevents "Unknown")
-      - name: Clean old status files
-        run: |
-          rm -f public/status.json
-          rm -f public/history.json
-          rm -f public/component-history.json
-          mkdir -p public
-
-      # 4. Install dependencies (just in case)
-      - name: Install npm dependencies
+      - name: Install dependencies
         run: npm install
 
-      # 5. Run the status updater
       - name: Run status updater
-        run: npm run update
+        run: node index.js
 
-      # 6. Optional: Commit updated JSON back to repo
-      #    Uncomment if you want to persist JSON to GitHub
-      # - name: Commit updated status files
-      #   run: |
-      #     git config user.name "github-actions[bot]"
-      #     git config user.email "github-actions[bot]@users.noreply.github.com"
-      #     git add public/*.json
-      #     git commit -m "Update Fortnite status"
-      #     git push
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add public/status.json public/status-badge.json || true
+          git diff --cached --quiet && exit 0
+
+          git commit -m "Update Fortnite status"
+          git push
