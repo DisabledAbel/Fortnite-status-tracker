@@ -23,7 +23,14 @@ function normalizeStatus(indicator) {
 
 function loadHistory() {
   if (!fs.existsSync(HISTORY_PATH)) {
-    return {};
+    return {
+      global: {
+        status: null,
+        lastChanged: null,
+        downSince: null
+      },
+      components: {}
+    };
   }
   return JSON.parse(fs.readFileSync(HISTORY_PATH, "utf8"));
 }
@@ -50,32 +57,51 @@ async function main() {
   try {
     const data = await fetchEpicStatus();
 
-    const globalStatus = normalizeStatus(data.status?.indicator);
+    const currentStatus = normalizeStatus(data.status?.indicator);
     const message = data.status?.description ?? "Unknown";
 
-    // ---- Downtime tracking (global) ----
-    let downtimeSeconds = 0;
+    // ---------- GLOBAL STATUS TRACKING ----------
+    let lastChanged = history.global.lastChanged;
 
-    if (globalStatus !== "OPERATIONAL") {
-      if (!history.downSince) {
-        history.downSince = nowIso;
-      }
-      downtimeSeconds = Math.floor(
-        (now - new Date(history.downSince)) / 1000
-      );
-    } else {
-      history.downSince = null;
+    if (history.global.status !== currentStatus) {
+      lastChanged = nowIso;
+      history.global.status = currentStatus;
+      history.global.lastChanged = nowIso;
     }
 
-    // ---- Component tracking ----
+    let downtimeSeconds = 0;
+
+    if (currentStatus !== "OPERATIONAL") {
+      if (!history.global.downSince) {
+        history.global.downSince = nowIso;
+      }
+      downtimeSeconds = Math.floor(
+        (now - new Date(history.global.downSince)) / 1000
+      );
+    } else {
+      history.global.downSince = null;
+    }
+
+    // ---------- COMPONENT TRACKING ----------
     const components = {};
 
     for (const c of data.components ?? []) {
       const status = normalizeStatus(c.status);
 
-      if (!history.components) history.components = {};
       if (!history.components[c.name]) {
-        history.components[c.name] = { downSince: null };
+        history.components[c.name] = {
+          status: null,
+          lastChanged: null,
+          downSince: null
+        };
+      }
+
+      let componentLastChanged = history.components[c.name].lastChanged;
+
+      if (history.components[c.name].status !== status) {
+        componentLastChanged = nowIso;
+        history.components[c.name].status = status;
+        history.components[c.name].lastChanged = nowIso;
       }
 
       let componentDowntime = 0;
@@ -95,14 +121,16 @@ async function main() {
         status,
         rawStatus: c.status,
         updatedAt: c.updated_at ?? null,
+        lastChanged: componentLastChanged,
         downtimeSeconds: componentDowntime
       };
     }
 
     const statusJson = {
-      status: globalStatus,
+      status: currentStatus,
       message,
       lastChecked: nowIso,
+      lastChanged,
       downtimeSeconds,
       components
     };
@@ -110,13 +138,13 @@ async function main() {
     const badgeJson = {
       schemaVersion: 1,
       label: "Fortnite Status",
-      message: globalStatus,
+      message: currentStatus,
       color:
-        globalStatus === "OPERATIONAL"
+        currentStatus === "OPERATIONAL"
           ? "brightgreen"
-          : globalStatus === "DEGRADED"
+          : currentStatus === "DEGRADED"
           ? "yellow"
-          : globalStatus === "OUTAGE"
+          : currentStatus === "OUTAGE"
           ? "red"
           : "lightgrey"
     };
@@ -125,7 +153,7 @@ async function main() {
     fs.writeFileSync(BADGE_PATH, JSON.stringify(badgeJson, null, 2));
     saveHistory(history);
 
-    console.log("✅ Status + downtime updated");
+    console.log("✅ Status, history, and downtime updated");
   } catch (err) {
     const errorJson = {
       status: "ERROR",
